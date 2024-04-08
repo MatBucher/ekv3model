@@ -14,9 +14,9 @@ bucher@electronics.tuc.gr
 
 Main contributions:
 
-Coordination Matthias Bucher, TUC.
-Coding, implementation and testing Antonios Bazigos, NTUA, Matthias Bucher, Marianna Chalkiadaki, Nikos Makris, Nikos Mavredakis TUC.
-Contributions to model formulation and coding Francois Krummenacher, EPFL.
-Contributions to model formulation Jean - Michel Sallese, Christian Enz, EPFL.
-Contributions to noise modelling Ananda Roy, Christian Enz, EPFL.
-Contributions to code standardization, Wladek Grabinski, EPFL.
+Coordination Matthias Bucher, TUC. \
+Coding, implementation and testing Antonios Bazigos, NTUA, Matthias Bucher, Marianna Chalkiadaki, Nikos Makris, Nikos Mavredakis TUC. \
+Contributions to model formulation and coding Francois Krummenacher, EPFL. \
+Contributions to model formulation Jean - Michel Sallese, Christian Enz, EPFL. \
+Contributions to noise modelling Ananda Roy, Christian Enz, EPFL. \
+Contributions to code standardization, Wladek Grabinski, EPFL. 
