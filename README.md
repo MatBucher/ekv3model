@@ -5,11 +5,11 @@ Technology (EPFL), Lausanne, Switzerland.
 
 Your feedback is most welcome. Please direct inquiries, comments etc. to,
 
-Prof. Matthias Bucher
-Technical University of Crete (TUC)
-73100 Chania, Crete, Greece
-phone: + 30 28210 37210
-fax: + 30 28210 37542
+Prof. Matthias Bucher \\
+Technical University of Crete (TUC) \\
+73100 Chania, Crete, Greece \\
+phone: + 30 28210 37210 \\
+fax: + 30 28210 37542 \\
 bucher@electronics.tuc.gr
 
 Main contributions:
