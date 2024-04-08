@@ -1,4 +1,4 @@
-#Model
+
 The Verilog - A Code for EKV3 MOSFET Model has been developed in cooperation
 among Technical University of Crete (TUC), Chania, Crete, National Technical
 University of Athens (NTUA), Athens, Greece and Swiss Federal Institute of
