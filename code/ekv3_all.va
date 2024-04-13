@@ -1,0 +1,23 @@
+`define ALL 1
+
+`define DC_S
+`include "ekv3.va"
+`undef  DC_S
+
+`define DC
+`include "ekv3.va"
+`undef  DC
+
+`define RF_S
+`include "ekv3.va"
+`undef  RF_S
+ 
+`define RF
+`include "ekv3.va"
+`undef  RF
+
+`define NQS
+`include "ekv3.va"
+`undef  NQS
+
+`undef ALL
