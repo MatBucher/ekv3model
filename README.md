@@ -9,13 +9,8 @@ Technical University of Crete (TUC) \
 73100 Chania, Crete, Greece \
 phone: + 30 28210 37210 \
 fax: + 30 28210 37542 \
-mbucher@tuc.gr
+mbucher@tuc.gr \
 
-Main contributions:
+Current contributors: Matthias Bucher, Nikolaos Makris \
+Past contributors: Antonios Bazigos, Marianna Chalkiadaki, Nikolaos Mavredakis, Francois Krummenacher, Jean-Michel Sallese, Christian Enz, Ananda Roy
 
-Coordination: Matthias Bucher. \
-Coding, implementation and testing: Antonios Bazigos, Matthias Bucher, Marianna Chalkiadaki, Nikolaos Makris, Nikolaos Mavredakis. \
-Contributions to model formulation: and coding Francois Krummenacher. \
-Contributions to model formulation: Jean - Michel Sallese, Christian Enz. \
-Contributions to noise modelling: Ananda Roy, Christian Enz. \
-Contributions to code standardization:  Wladek Grabinski. 
