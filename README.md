@@ -9,7 +9,7 @@ Technical University of Crete (TUC) \
 73100 Chania, Crete, Greece \
 phone: + 30 28210 37210 \
 fax: + 30 28210 37542 \
-mbucher@tuc.gr \
+mbucher@tuc.gr 
 
 Current contributors: Matthias Bucher, Nikolaos Makris \
 Past contributors: Antonios Bazigos, Marianna Chalkiadaki, Nikolaos Mavredakis, Francois Krummenacher, Jean-Michel Sallese, Christian Enz, Ananda Roy
