@@ -12,7 +12,7 @@ Technical University of Crete (TUC) \
 73100 Chania, Crete, Greece \
 phone: + 30 28210 37210 \
 fax: + 30 28210 37542 \
-bucher@tuc.gr
+mbucher@tuc.gr
 
 Main contributions:
 
