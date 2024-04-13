@@ -1,9 +1,6 @@
 # EKV3 Verilog-A model
 In this repository, you will find the Verilog-A code of EKV3 model. \
-The code for EKV3 MOSFET Model has been developed in cooperation
-among Technical University of Crete (TUC), Chania, Crete, National Technical
-University of Athens (NTUA), Athens, Greece and Swiss Federal Institute of
-Technology (EPFL), Lausanne, Switzerland.
+This code is developed and maintained by EKV3 modeling group at Technical University of Crete (TUC). \
 
 Your feedback is most welcome. Please direct inquiries, comments etc. to,
 
@@ -16,9 +13,9 @@ mbucher@tuc.gr
 
 Main contributions:
 
-Coordination: Matthias Bucher, TUC. \
-Coding, implementation and testing: Antonios Bazigos, NTUA, Matthias Bucher, Marianna Chalkiadaki, Nikos Makris, Nikos Mavredakis TUC. \
-Contributions to model formulation: and coding Francois Krummenacher, EPFL. \
-Contributions to model formulation: Jean - Michel Sallese, Christian Enz, EPFL. \
-Contributions to noise modelling: Ananda Roy, Christian Enz, EPFL. \
-Contributions to code standardization:  Wladek Grabinski, EPFL. 
+Coordination: Matthias Bucher. \
+Coding, implementation and testing: Antonios Bazigos, Matthias Bucher, Marianna Chalkiadaki, Nikolaos Makris, Nikolaos Mavredakis. \
+Contributions to model formulation: and coding Francois Krummenacher. \
+Contributions to model formulation: Jean - Michel Sallese, Christian Enz. \
+Contributions to noise modelling: Ananda Roy, Christian Enz. \
+Contributions to code standardization:  Wladek Grabinski. 
