@@ -1,6 +1,6 @@
 # EKV3 Verilog-A model
 In this repository, you will find the Verilog-A code of EKV3 model. \
-This code is developed and maintained by EKV3 modeling group at Technical University of Crete (TUC). \
+This code is developed and maintained by EKV3 modeling group at Technical University of Crete (TUC). 
 
 Your feedback is most welcome. Please direct inquiries, comments etc. to,
 
