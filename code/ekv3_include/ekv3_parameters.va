@@ -2,54 +2,39 @@
 // INSTANCE PARAMETERS //
 /////////////////////////
 
-//parameter real        L       = 10.0E-06  from [1.0E-9:inf)   `ATTR(type="instance" info="GATE'S LENGTH");
-//parameter real        W       = 10.0E-06  from [1.0E-9:inf)   `ATTR(type="instance" info="GATE'S WIDTH");
-//parameter integer       NF        = 1     from [1:inf)        `ATTR(type="instance" info="NUMBER OF FINGERS");
-//parameter real        M       = 1     from [1:inf)        `ATTR(type="instance" info="NUMBER OF DEVICES IN PARALLEL");
-//parameter real        AD      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="DRAIN'S AREA");
-//parameter real        AS      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="SOURCE'S AREA");
-//parameter real        PD      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="DRAIN'S PERIMETER");
-//parameter real        PS      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="SOURCE'S PERIMETER");
-//parameter real        SA      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="STI PARAMETER; DISTANCE FROM STI (SIDE A)");
-//parameter real        SB      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="STI PARAMETER; DISTANCE FROM STI (SIDE B)");
-//parameter real        SD      = 0.0       from [0.0:inf)      `ATTR(type="instance" info="STI PARAMETER; DISTANCE BETWEEN GATES");
+    `IPRco( L     , 1.0e-5 , "m"      , 1e-9      , inf     , "Gate Length" )
+    `IPRco( W     , 1.0e-5 , "m"      , 1e-9      , inf     , "Total Gate Width" )
+    `IPIco( NF    , 1      , ""       , 1         , inf     , "Number of Fingers" )
+    `IPIco( M     , 1      , ""       , 1         , inf     , "Multiplicity Factor" )
+    `IPRcz( AS    , 0.0    , "m^2"                          , "Area of Source Active Area" )
+    `IPRcz( AD    , 0.0    , "m^2"                          , "Area of Drain Active Area" )
+    `IPRcz( PS    , 0.0    , "m"                            , "Perimeter of Source Active Area" )
+    `IPRcz( PD    , 0.0    , "m"                            , "Perimeter of Drain Active Area" )
 
-
-
-(* type="instance" *) parameter real        L       = 10.0E-06  from [1.0E-9:inf)   ;
-(* type="instance" *) parameter real        W       = 10.0E-06  from [1.0E-9:inf)   ;
-(* type="instance" *) parameter integer       NF        = 1     from [1:inf)        ;
-(* type="instance" *) parameter real        M       = 1     from [1:inf)        ;
-(* type="instance" *) parameter real        AD      = 0.0       from [0.0:inf)      ;
-(* type="instance" *) parameter real        AS      = 0.0       from [0.0:inf)      ;
-(* type="instance" *) parameter real        PD      = 0.0       from [0.0:inf)      ;
-(* type="instance" *) parameter real        PS      = 0.0       from [0.0:inf)      ;
-
-(* type="instance" *) parameter real        SA      = 0.0       from [0.0:inf)      ;
-(* type="instance" *) parameter real        SB      = 0.0       from [0.0:inf)      ;
-(* type="instance" *) parameter real        SD      = 0.0       from [0.0:inf)      ;
-
+    `IPRcz( SA   , 0.0     , "m"                            , "Distance of first gate finger from STI (one side)" )
+    `IPRcz( SB   , 0.0     , "m"                            , "Distance of last gate finger from STI (other side)" )
+    `IPRcz( SD   , 0.0     , "m"                            , "Distance between neighbouring gate fingers" )
 
 ////////////////////////////////
 // FLAGS AND SETUP PARAMETERS //
 ////////////////////////////////
 
-parameter real      SIGN        = 1     from [-1:1]     `ATTR(info="SIGN = 1 FOR NMOS; SIGN = -1 FOR PMOS");
-parameter real      TG      = -1        from [-1:1]     `ATTR(info="TYPE OF GATE: -1 ENHANCEMENT TYPE; 1 DEPLETION TYPE");
-parameter real      TNOM        = 27.0      from [-273.15:inf)  `ATTR(info="NOMINAL TEMPERATURE FOR MODEL PARAMETERS");
-parameter real      SCALE       = 1.0       from (0.0:inf)      `ATTR(info="SCALING SIZE FACTOR");
-parameter real      XL      = 0.0       from (-inf:inf)     `ATTR(info="OPTICAL OFFSET FOR CHANNEL LENGTH");
-parameter real      XW      = 0.0       from (-inf:inf)     `ATTR(info="OPTICAL OFFSET FOR CHANNEL WIDTH");
-parameter real      NQS_NOI     = 1.0       from [0:1]      `ATTR(info="FLAG TURNING ON NQS THERMAL NOISE MODEL. (NOT BOTH NQS_NOI AND TH_NOI SHOULD BE SET TO 1).");
-parameter real      TH_NOI      = 0.0       from [0:1]      `ATTR(info="FLAG TURNING ON SHORT CHANNEL EFFECTS THERMAL NOISE MODEL. (NOT BOTH NQS_NOI AND TH_NOI SHOULD BE SET TO 1).");
-parameter real      INFO_LEVEL  = 0.0       from [0:inf)        `ATTR(info="FLAG FOR INFORMATION PRINTOUT. CURRENTLY ONLY VALUE OF 1 IS SUPPORTED.");
-parameter real      QOFF        = 0.0       from [0:1]      `ATTR(info="FLAG FOR TURNING OFF THE DYNAMIC BEHAVIOUR OF THE MODEL (FOR DEBUGGING PURPOSES)");
+    `MPIty( SIGN    , 1    , ""                            , "SIGN = 1 FOR NMOS; SIGN = -1 FOR PMOS")
+    `MPIty( TG      ,-1    , ""                            , "TYPE OF GATE: -1 ENHANCEMENT TYPE; 1 DEPLETION TYPE")
+    `MPRco( TNOM    , 27.0 , "C"    , -`P_CELSIUS0 , inf   , "NOMINAL TEMPERATURE FOR MODEL PARAMETERS")
+    `MPRco( SCALE   , 1.0  , ""     ,          1.0 , inf ,   "SCALING SIZE FACTOR")
+    `MPRnb( XL      , 0.0  , "m"    ,                        "OPTICAL OFFSET FOR CHANNEL LENGTH")
+    `MPRnb( XW      , 0.0  , "m"    ,                        "OPTICAL OFFSET FOR CHANNEL WIDTH")
+    `MPIsw( NQS_NOI , 1    , ""                            , "FLAG TURNING ON NQS THERMAL NOISE MODEL. (NOT BOTH NQS_NOI AND TH_NOI SHOULD BE SET TO 1).")
+    `MPIsw( TH_NOI  , 0    , ""                            , "FLAG TURNING ON SHORT CHANNEL EFFECTS THERMAL NOISE MODEL. (NOT BOTH NQS_NOI AND TH_NOI SHOULD BE SET TO 1).")
+    `MPIsw( INFO_LEVEL  , 0    , "" ,       "FLAG FOR INFORMATION PRINTOUT. CURRENTLY ONLY VALUE OF 1 IS SUPPORTED.")
+    `MPIcc( QOFF        , 0    , "" , 0, 1, "FLAG FOR TURNING OFF THE DYNAMIC BEHAVIOUR OF THE MODEL (FOR DEBUGGING PURPOSES)")
 
 // MATCHING
 
-parameter real      AVTO        = 0.0       from (-inf:inf)     `ATTR(info="MATCHING PARAMETER FOR THRESHOLD VOLTAGE (VTO)");
-parameter real      AGAMMA      = 0.0       from (-inf:inf)     `ATTR(info="MATCHING PARAMETER FOR BODY FACTOR (GAMMA)");
-parameter real      AKP     = 0.0       from (-inf:inf)     `ATTR(info="MATCHING PARAMETER FOR MOBILITY (KP)");
+    `MPRnb( AVTO    ,  0.0    , ""     , "MATCHING PARAMETER FOR THRESHOLD VOLTAGE (VTO)")
+    `MPRnb( AGAMMA  ,  0.0    , ""     , "MATCHING PARAMETER FOR BODY FACTOR (GAMMA)")
+    `MPRnb( AKP     ,  0.0    , ""     , "MATCHING PARAMETER FOR MOBILITY (KP)")
 
 //////////////////////
 // MODEL PARAMETERS //
@@ -57,219 +42,216 @@ parameter real      AKP     = 0.0       from (-inf:inf)     `ATTR(info="MATCHING
 
 // OXIDE, SUBSTRATE AND GATE DOPING RELATED PARAMETERS (7(8))
 
-parameter real      COX         = 0.012     from (0.0:inf)      `ATTR(info="OXIDE CAPACITANCE PER UNIT AREA");
-parameter real      XJ      = 20.0E-09  from (0.0:inf)      `ATTR(info="DEPTH OF JUNCTION (SOURCE AND DRAIN)");
-parameter real      VTO         = 0.3       from (-inf:inf)     `ATTR(info="THRESHOLD VOLTAGE");
-parameter real      PHIF        = 0.45      from [0.0:inf)      `ATTR(info="FERMI BULK POTENTIAL");
-parameter real      GAMMA       = 0.3       from (0.0:inf)      `ATTR(info="BODY EFFECT COEFFECIENT");
-parameter real      GAMMAG      = 4.1       from (0.0:inf)      `ATTR(info="GATE DOPING COEFFICIENT FOR POLYSILICON DEPLETION EFFECT");
-parameter real      N0      = 1.0       from [0.0:inf)      `ATTR(info="WEAK INVERSION FINE TUNING PARAMETER");
-parameter real      VBI         = 0.0       from [0.0:inf)      `ATTR(info="BUILT-IN VOLTAGE DROP-OFF. IF LEFT TO DEFAULT ZERO VALUE, IT IS SET TO THE NOMINAL VALUE OF 3UT HIGHER THAN PHI.");
+    `MPRoz( COX     ,  12E-3 , "F/m**2"  ,             "OXIDE CAPACITANCE PER UNIT AREA")
+    `MPRoz( XJ      ,  20E-9 , "m"       ,             "DEPTH OF JUNCTION (SOURCE AND DRAIN)")
+    `MPRnb( VTO     ,  0.3   , "V"       ,             "THRESHOLD VOLTAGE")
+    `MPRco( PHIF    ,  0.45  , "V"       , 0.1 , inf , "FERMI BULK POTENTIAL")
+    `MPRoz( GAMMA   ,  0.3   , "sqrt(V)" ,             "BODY EFFECT COEFFICIENT")
+    `MPRoz( GAMMAG  ,  4.1   , "sqrt(V)" ,             "GATE DOPING COEFFICIENT FOR POLYSILICON DEPLETION EFFECT")
+    `MPRnb( N0      ,  1.0   , ""        ,             "WEAK INVERSION FINE TUNING PARAMETER")
+    `MPRco( VBI     ,  0.0   , "V"       , 0.0 , inf , "BUILT-IN VOLTAGE DROP-OFF. IF LEFT TO DEFAULT ZERO VALUE, IT IS SET TO THE NOMINAL VALUE OF 3UT HIGHER THAN PHI.")
 
 // QUANTUM EFFECTS (3)
 
-parameter real      AQMA        = 0.5       from [0.0:inf)      `ATTR(info="QUANTUM MECHANICAL EFFECT ACCUMULATION REGION COEFFICIENT");
-parameter real      AQMI        = 0.4       from [0.0:inf)      `ATTR(info="QUANTUM MECHANICAL EFFECT INVERSION REGION COEFFICIENT");
-parameter real      ETAQM       = 0.75      from [0.0:inf)      `ATTR(info="QUANTUM MECHANICAL EFFECT ACCUMULATION ETA PARAMETER");
+    `MPRnb( AQMA    ,  0.5    , ""     , "QUANTUM MECHANICAL EFFECT ACCUMULATION REGION COEFFICIENT")
+    `MPRnb( AQMI    ,  0.4    , ""     , "QUANTUM MECHANICAL EFFECT INVERSION REGION COEFFICIENT")
+    `MPRoz( ETAQM   ,  0.75   , ""     , "QUANTUM MECHANICAL EFFECT ACCUMULATION ETA PARAMETER")
 
 // VERTICAL FIELD MOBILITY EFFECTS PARAMETERS (4)
 
-parameter real      KP      = 500.0E-06     from [0.0:inf)      `ATTR(info="MOBILITY (MULTIPLIED BY COX) PARAMETER");
-parameter real      E0      = 1.0E+10   from (0.0:inf)      `ATTR(info="FIRST ORDER PARAMETER FOR MOBILITY REDUCTION DUE TO VERTICAL FIELD EFFECT");
-parameter real      E1      = 3.1E+08   from (0.0:inf)      `ATTR(info="SECOND ORDER PARAMETER FOR MOBILITY REDUCTION DUE TO VERTICAL FIELD EFFECT");
-parameter real      ETA         = 0.5       from [0.0:inf)      `ATTR(info="INVERSION CHARGE COEFFICIENT FOR VERTICAL FIELD CALCULATION");
+    `MPRoz( KP     ,  500E-6 , "F/Vs"      , "MOBILITY (MULTIPLIED BY COX) PARAMETER")
+    `MPRoz( E0     ,  10E9   , "V/m"       , "FIRST ORDER PARAMETER FOR MOBILITY REDUCTION DUE TO VERTICAL FIELD EFFECT")
+    `MPRoz( E1     ,  310e6  , "V**2/m**2" , "SECOND ORDER PARAMETER FOR MOBILITY REDUCTION DUE TO VERTICAL FIELD EFFECT")
+    `MPRcz( ETA    ,  0.5    , ""          , "INVERSION CHARGE COEFFICIENT FOR VERTICAL FIELD CALCULATION")
 
 // COULOMB SCATTERING (2)
 
-parameter real      THC         = 0.0       from [0.0:inf)      `ATTR(info="COULOMB SCATTERING PARAMETER");
-parameter real      ZC      = 1.0E-6    from [0.0:inf)      `ATTR(info="COULOMB SCATTERING INVERSION CHARGE COEFFICIENT");
+    `MPRcz( THC    ,  0.0    , ""     ,      "COULOMB SCATTERING PARAMETER")
+    `MPRcz( ZC     ,  1e-6   , ""     ,      "COULOMB SCATTERING INVERSION CHARGE COEFFICIENT")
 
 // MOBILITY RELATED GEOMETRICAL PARAMETERS (7)
 
-parameter real      LA      = 1.0       from [0.0:inf)      `ATTR(info="CRITICAL LENGTH A OF MOBILITY LENGTH SCALING");
-parameter real      LB      = 1.0       from [0.0:inf)      `ATTR(info="CRITICAL LENGTH B OF MOBILITY LENGTH SCALING");
-parameter real      KA      = 0.0       from (-inf:inf)         `ATTR(info="PARAMETER FOR CRITICAL LENGTH A OF MOBILITY LENGTH SCALING");
-parameter real      KB      = 0.0       from (-inf:inf)         `ATTR(info="PARAMETER FOR CRITICAL LENGTH B OF MOBILITY LENGTH SCALING");
+    `MPRoz( LA       , 1.0,  "m" , "CRITICAL LENGTH A OF MOBILITY LENGTH SCALING")
+    `MPRoz( LB       , 1.0,  "m" , "CRITICAL LENGTH B OF MOBILITY LENGTH SCALING")
+    `MPRnb( KA       , 0.0,  ""  , "PARAMETER FOR CRITICAL LENGTH A OF MOBILITY LENGTH SCALING")
+    `MPRnb( KB       , 0.0,  ""  , "PARAMETER FOR CRITICAL LENGTH B OF MOBILITY LENGTH SCALING")
 // LIMIT WKP1 CHANGES TO (-INF FROM [0
-parameter real      WKP1        = 1.0E-6    from (-inf:inf)     `ATTR(info="CRITICAL WIDTH OF MOBILITY WIDTH SCALING");
+    `MPRoz( WKP1     , 1e-6, "m" , "CRITICAL WIDTH OF MOBILITY WIDTH SCALING" )
 // LIMIT WKP2 CHANGES TO (-INF FROM [0
-parameter real      WKP2        = 0.0       from (-inf:inf)     `ATTR(info="AMPLITUDE PARAMETER FOR MOBILITY WIDTH SCALING");
+    `MPRnb( WKP2     , 0.0,  ""  , "AMPLITUDE PARAMETER FOR MOBILITY WIDTH SCALING" )
 // LIMIT WKP3 CHANGES TO (-INF FROM [0
-parameter real      WKP3        = 1.0       from (-inf:inf)     `ATTR(info="SPAN PARAMETER FOR MOBILITY WIDTH SCALING");
+    `MPRoz( WKP3     , 1.0,  ""  , "SPAN PARAMETER FOR MOBILITY WIDTH SCALING" )
 
 // GEOMETRICAL PARAMETERS (8)
 
-parameter real      DL      = -10.0E-9  from (-inf:inf)     `ATTR(info="EFFECTIVE LENGTH PARAMETER");
-parameter real      DLC         = 0.0       from (-inf:inf)     `ATTR(info="EFFECTIVE LENGTH PARAMETER FOR DYNAMIC BEHAVIOUR");
-parameter real      DW      = -10.0E-9  from (-inf:inf)     `ATTR(info="EFFECTIVE WIDTH PARAMETER");
-parameter real      DWC         = 0.0       from (-inf:inf)     `ATTR(info="EFFECTIVE WIDTH PARAMETER FOR DYNAMIC BEHAVIOUR");
-parameter real      WDL         = 0.0       from (-inf:inf)     `ATTR(info="EFFECTIVE LENGTH PARAMETER FOR NARROW CHANNEL DEVICES");
-parameter real      LDW         = 0.0       from (-inf:inf)     `ATTR(info="EFFECTIVE WIDTH PARAMETER FOR SHORT CHANNEL DEVICES");
-parameter real      LL      = 0.0       from (-inf:inf)     `ATTR(info="BASE OF EXPONENTIAL MODEL FOR EFFECTIVE LENGTH");
-parameter real      LLN         = 1.0       from (-inf:inf)     `ATTR(info="EXPONENT OF EXPONENTIAL MODEL FOR EFFECTIVE LENGTH");
+    `MPRoo( DL    , -10e-9 , "m" ,    -inf , inf , "EFFECTIVE LENGTH PARAMETER")
+    `MPRoo( DLC   ,  0.0   , "m" ,    -inf , inf , "EFFECTIVE LENGTH PARAMETER FOR DYNAMIC BEHAVIOUR")
+    `MPRoo( DW    , -10e-9 , "m" ,    -inf , inf , "EFFECTIVE WIDTH PARAMETER")
+    `MPRoo( DWC   ,  0.0   , "m" ,    -inf , inf , "EFFECTIVE WIDTH PARAMETER FOR DYNAMIC BEHAVIOUR")
+    `MPRco( WDL   ,  0.0   , "m**2" , 0.0 , inf ,  "EFFECTIVE LENGTH PARAMETER FOR NARROW CHANNEL DEVICES")
+    `MPRco( LDW   ,  0.0   , "m**2" , 0.0 , inf ,  "EFFECTIVE WIDTH PARAMETER FOR SHORT CHANNEL DEVICES")
+    `MPRoo( LL    ,  0.0   , "m" ,    -inf , inf , "BASE OF EXPONENTIAL MODEL FOR EFFECTIVE LENGTH")
+    `MPRco( LLN   ,  1.0   , "" ,     0.0 , inf ,  "EXPONENT OF EXPONENTIAL MODEL FOR EFFECTIVE LENGTH")
 
 // LONG AND WIDE CHANNEL VTO AND GAMMA CORRECTION (8)
 
-parameter real      AVT         = 0.0       from (-inf:inf)     `ATTR(info="PARAMETER FOR LONG AND WIDE CHANNEL VTO CORRECTION");
-parameter real      LVT         = 1.0       from [0.0:inf)      `ATTR(info="LENGTH FOR LONG AND WIDE CHANNEL VTO CORRECTION");
-parameter real      WVT         = 1.0       from [0.0:inf)      `ATTR(info="WIDTH FOR LONG AND WIDE CHANNEL VTO CORRECTION");
-parameter real      AGAM        = 0.0       from (-inf:inf)     `ATTR(info="PARAMETER FOR LONG AND WIDE CHANNEL GAMMA CORRECTION");
-parameter real      LGAM        = 1.0       from [0.0:inf)      `ATTR(info="LENGTH FOR LONG AND WIDE CHANNEL GAMMA CORRECTION");
-parameter real      WGAM        = 1.0       from [0.0:inf)      `ATTR(info="WIDTH FOR LONG AND WIDE CHANNEL GAMMA CORRECTION");
-parameter real      NFVTA       = 0.0       from [0.0:inf)      `ATTR(info="NUMBER OF FINGERS FOR VTO CORRECTION FOR MULTIFINGER DEVICES (OBSOLETE MODEL BY STI STRESS EFFECT)");
-parameter real      NFVTB       = 10000.0   from (-inf:inf)     `ATTR(info="PARAMETER FOR VTO CORRECTION FOR MULTIFINGER DEVICES (OBSOLETE MODEL BY STI STRESS EFFECT)");
+    `MPRnb( AVT      , 0.0,  ""  , "PARAMETER FOR LONG AND WIDE CHANNEL VTO CORRECTION")
+    `MPRoz( LVT      , 1.0,  "m" , "LENGTH FOR LONG AND WIDE CHANNEL VTO CORRECTION")
+    `MPRoz( WVT      , 1.0,  "m" , "WIDTH FOR LONG AND WIDE CHANNEL VTO CORRECTION")
+    `MPRnb( AGAM     , 0.0,  ""  , "PARAMETER FOR LONG AND WIDE CHANNEL GAMMA CORRECTION")
+    `MPRoz( LGAM     , 1.0,  "m" , "LENGTH FOR LONG AND WIDE CHANNEL GAMMA CORRECTION")
+    `MPRoz( WGAM     , 1.0,  "m" , "WIDTH FOR LONG AND WIDE CHANNEL GAMMA CORRECTION")
+    `MPInb( NFVTA    , 0,    ""  , "NUMBER OF FINGERS FOR VTO CORRECTION FOR MULTIFINGER DEVICES (OBSOLETE MODEL BY STI STRESS EFFECT)")
+    `MPRnb( NFVTB    , 10e3, ""  , "PARAMETER FOR VTO CORRECTION FOR MULTIFINGER DEVICES (OBSOLETE MODEL BY STI STRESS EFFECT)")
 
 // VELOCITY SATURATION & CLM RELATED PARAMETERS (4)
 
-parameter real      UCRIT       = 5.0E+06   from (0.0:inf)      `ATTR(info="CRITICAL VELOCITY OF VELOCITY SATURATION EFFECT");
-parameter real      DELTA       = 2.0       from [1.0:2.0]      `ATTR(info="VARIABLE ORDER (FROM 1.0 TO 2.0) OF VELOCITY SATURATION EFFECT");
-parameter real      LAMBDA      = 0.5       from [0.0:inf)      `ATTR(info="LENGTH PARAMETER FOR CHANNEL LENGTH MODULATION");
-parameter real      ACLM        = 0.83      from [0.0:inf)      `ATTR(info="FINE TUNING PARAMETER FOR CHANNEL LENGTH MODULATION");
+    `MPRoz( UCRIT  ,  5.0E6  , "V/m"   ,             "CRITICAL VELOCITY OF VELOCITY SATURATION EFFECT")
+    `MPRcc( DELTA  ,  2.0    , ""      , 1.0 , 2.0 , "VARIABLE ORDER (FROM 1.0 TO 2.0) OF VELOCITY SATURATION EFFECT")
+    `MPRcz( LAMBDA ,  0.5    , ""      ,             "LENGTH PARAMETER FOR CHANNEL LENGTH MODULATION")
+    `MPRnb( ACLM   ,  0.83   , ""      ,             "FINE TUNING PARAMETER FOR CHANNEL LENGTH MODULATION")
 
 // REVERSE SHORT CHANNEL EFFECT (4)
 
-parameter real      LR      = 50.0E-09  from (0.0:inf)      `ATTR(info="LENGTH PARAMETER FOR REVERSE SHORT CHANNEL EFFECT");
-parameter real      QLR         = 0.5E-3    from (-inf:inf)     `ATTR(info="CHARGE PARAMETER FOR REVERSE SHORT CHANNEL EFFECT (VTO)");
-parameter real      NLR         = 10.0E-3   from (-inf:inf)     `ATTR(info="DOPING PARAMETER FOR REVERSE SHORT CHANNEL EFFECT (GAMMA)");
-parameter real      FLR     = 1.0       from [0.0:inf)      `ATTR(info="FERMI POTENTIAL FINE TUNING PARAMETER FOR REVERSE SHORT CHANNEL EFFECT (PHIF)");
+    `MPRoz( LR    , 50e-9 ,  "m" ,         "LENGTH PARAMETER FOR REVERSE SHORT CHANNEL EFFECT")
+    `MPRnb( QLR   , 0.5e-3 , "V*m**2/F" ,  "CHARGE PARAMETER FOR REVERSE SHORT CHANNEL EFFECT (VTO)")
+    `MPRnb( NLR   , 10e-3 ,  "m**2/F" ,    "DOPING PARAMETER FOR REVERSE SHORT CHANNEL EFFECT (GAMMA)")
+    `MPRcz( FLR   , 1.0  ,   "" ,          "FERMI POTENTIAL FINE TUNING PARAMETER FOR REVERSE SHORT CHANNEL EFFECT (PHIF)")
 
 // CHARGE SHARING EFFECT (5)
 
-parameter real      LETA0       = 0.0       from (-inf:inf)     `ATTR(info="LENGTH INDEPENDENT PARAMETER FOR CHARGE SHARING (LONG CHANNEL)");
-parameter real      LETA        = 500.0E-3  from [0.0:inf)      `ATTR(info="LENGTH SCALING PARAMETER FOR CHARGE SHARING");
-parameter real      LETA2       = 0.0       from (-inf:inf)     `ATTR(info="SECOND ORDER LENGTH SCALING PARAMETER FOR CHARGE SHARING (SHORTEST CHANNEL)");
-parameter real      WETA        = 200.0E-3  from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR CHARGE SHARING");
-parameter real      NCS         = 1.0       from [0.0:inf)      `ATTR(info="WEAK INVERSION SLOPE PARAMETER FOR CHARGE SHARING");
+    `MPRnb( LETA0 , 0.0 , "1/m" ,    "LENGTH INDEPENDENT PARAMETER FOR CHARGE SHARING (LONG CHANNEL)")
+    `MPRcz( LETA  , 0.5 ,  "" ,      "LENGTH SCALING PARAMETER FOR CHARGE SHARING")
+    `MPRnb( LETA2 , 0.0 ,  "m" ,     "SECOND ORDER LENGTH SCALING PARAMETER FOR CHARGE SHARING (SHORTEST CHANNEL)")
+    `MPRnb( WETA  , 0.2 ,   "" ,     "WIDTH SCALING PARAMETER FOR CHARGE SHARING")
+    `MPRcz( NCS   , 1.0 ,   "" ,     "WEAK INVERSION SLOPE PARAMETER FOR CHARGE SHARING")
 
 // DRAIN INDUCED BARRIER LOWERING (2)
 
-parameter real      ETAD        = 1.0       from [0.0:inf)      `ATTR(info="ETA PARAMETER FOR DRAIN INDUCED BARRIER LOWERING");
-parameter real      SIGMAD      = 1.0       from [0.0:inf)      `ATTR(info="SIGMA PARAMETER FOR DRAIN INDUCED BARRIER LOWERING");
+    `MPRcz( ETAD  ,  1.0 ,  "" ,     "ETA PARAMETER FOR DRAIN INDUCED BARRIER LOWERING")
+    `MPRcz( SIGMAD , 1.0 ,  "" ,     "SIGMA PARAMETER FOR DRAIN INDUCED BARRIER LOWERING")
 
 // INVERSE NARROW CHANNEL EFFECT (3)
 
-parameter real      WR      = 90.0E-09  from (0.0:inf)      `ATTR(info="WIDTH PARAMETER FOR INVERSE NARROW CHANNEL EFFECT");
-parameter real      QWR         = 0.3E-3    from (-inf:inf)     `ATTR(info="CHARGE PARAMETER FOR INVERSE NARROW CHANNEL EFFECT (VTO)");
-parameter real      NWR         = 5.0E-3    from (-inf:inf)     `ATTR(info="DOPING PARAMETER FOR INVERSE NARROW CHANNEL EFFECT (GAMMA)");
+    `MPRoz( WR  ,  90e-9   , "m"         , "WIDTH PARAMETER FOR INVERSE NARROW CHANNEL EFFECT")
+    `MPRnb( QWR ,  0.3e-3  , "V*m**2/F"  , "CHARGE PARAMETER FOR INVERSE NARROW CHANNEL EFFECT (VTO)")
+    `MPRnb( NWR ,  5e-3    , "m**2/F"    , "DOPING PARAMETER FOR INVERSE NARROW CHANNEL EFFECT (GAMMA)")
 
 // DITS (5)
 
-parameter real      FPROUT      = 1.0E6     from [0.0:inf)      `ATTR(info="OUTPUT RESISTANCE PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT");
-parameter real      PDITS       = 0.0       from [0.0:inf)      `ATTR(info="PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT (IF SET TO ZERO THE DITS EFFECT IS DISABLED)");
-parameter real      PDITSL      = 0.0       from [0.0:inf)      `ATTR(info="LENGTH SCALING PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT");
-parameter real      PDITSD      = 1.0       from [0.0:inf)      `ATTR(info="BIAS PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT");
-parameter real      DDITS       = 0.3       from [0.0:inf)      `ATTR(info="SMOOTH FACTOR OF OUTPUT CONDUCTANCE FOR DRAIN INDUCED THRESHOLD SHIFT");
+    `MPRcz( FPROUT ,  1e6 , "1/sqrt(m)",   "OUTPUT RESISTANCE PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT")
+    `MPRcz( PDITS  ,  0.0, ""     ,        "PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT (IF SET TO ZERO THE DITS EFFECT IS DISABLED)")
+    `MPRcz( PDITSL ,  0.0 , "1/m"     ,    "LENGTH SCALING PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT")
+    `MPRcz( PDITSD ,  1.0 , "1/V"     ,    "BIAS PARAMETER FOR DRAIN INDUCED THRESHOLD SHIFT")
+    `MPRcz( DDITS  ,  0.3 , ""        ,    "SMOOTH FACTOR OF OUTPUT CONDUCTANCE FOR DRAIN INDUCED THRESHOLD SHIFT")
 
 // IMPACT IONIZATION CURRENT (3)
 
-parameter real      IBA         = 000.0E+06     from [0.0:inf)      `ATTR(info="PARAMETER A OF IMPACT IONIZATION CURRENT");
-parameter real      IBB         = 300.0E+06     from [0.0:inf)      `ATTR(info="PARAMETER B OF IMPACT IONIZATION CURRENT");
-parameter real      IBN         = 1.0       from [0.0:inf)      `ATTR(info="PARAMETER N OF IMPACT IONIZATION CURRENT");
+    `MPRnb( IBA ,  0.0   , "1/m"      ,    "PARAMETER A OF IMPACT IONIZATION CURRENT")
+    `MPRnb( IBB ,  300e6  , "V/m"    ,     "PARAMETER B OF IMPACT IONIZATION CURRENT")
+    `MPRnb( IBN ,  1.0    , ""      ,      "PARAMETER N OF IMPACT IONIZATION CURRENT")
 
 // GATE CURRENT (4)
 
-parameter real      XB      = 3.1       from (0.0:inf)      `ATTR(info="SILICON TO SILICON OXIDE TUNNELING BARRIER HEIGHT");
-parameter real      EB      = 29.0E+09  from (0.0:inf)      `ATTR(info="CHARACTERISTIC ELECTRICAL FIELD");
-parameter real      KG      = 00.0E-6   from [0.0:inf)      `ATTR(info="MOBILITY FOR GATE CURRENT");
-parameter real      LOVIG       = 20.0E-9   from [0.0:inf)      `ATTR(info="OVERLAP GATE LENGTH FOR OVERLAP GATE CURRENT");
+    `MPRoz( XB ,  3.1   , "V"      ,       "SILICON TO SILICON OXIDE TUNNELING BARRIER HEIGHT")
+    `MPRoz( EB ,  29e9  , "V/m"    ,       "CHARACTERISTIC ELECTRICAL FIELD")
+    `MPRcz( KG ,  0.0   , "A/V**2" ,       "MOBILITY FOR GATE CURRENT")
+    `MPRoz( LOVIG , 20e-9 , "m"    ,       "OVERLAP GATE LENGTH FOR OVERLAP GATE CURRENT")
 
 // GIDL - GISL (4)
 
-parameter real      AGIDL       = 0.0       from [0.0:inf)      `ATTR(info="PARAMETER A OF GATE INDUCED DRAIN LEAKAGE");
-parameter real      BGIDL       = 2.3E+09   from [0.0:inf)      `ATTR(info="PARAMETER B OF GATE INDUCED DRAIN LEAKAGE");
-parameter real      CGIDL       = 0.5       from [0.0:inf)      `ATTR(info="PARAMETER C OF GATE INDUCED DRAIN LEAKAGE");
-parameter real      EGIDL       = 0.8       from [0.0:inf)      `ATTR(info="PARAMETER E OF GATE INDUCED DRAIN LEAKAGE");
+    `MPRnb( AGIDL ,  0.0    , "A/V"      , "PARAMETER A OF GATE INDUCED DRAIN LEAKAGE")
+    `MPRnb( BGIDL ,  2.3e9  , "V/m"    ,   "PARAMETER B OF GATE INDUCED DRAIN LEAKAGE")
+    `MPRnb( CGIDL ,  0.5    , "V**3"     , "PARAMETER C OF GATE INDUCED DRAIN LEAKAGE")
+    `MPRnb( EGIDL ,  0.8    , "V"      ,   "PARAMETER E OF GATE INDUCED DRAIN LEAKAGE")
 
 // FLICKER NOISE PARAMETERS (4)
 
-parameter integer       LFNOI           = 0             from [0.0:inf)       `ATTR(info="FLICKER NOISE MODEL SELECTION");
-parameter real      KF      = 0.0       from [0.0:inf)       `ATTR(info="FLICKER NOISE PARAMETER");
-parameter real      AF      = 1.0       from [0.0:inf)       `ATTR(info="FLICKER NOISE FREQUENCY EXPONENT");
-parameter real      EF      = 2.0       from [0.0:inf)       `ATTR(info="FLICKER NOISE TRANSCONDUCTANCE EXPONENT");
-parameter real          NT          = 1.0E+14   from [0.0:inf)      `ATTR(info="NUMBER OF TRAPPED CARRIERS");
-parameter real          ALPHAC      = 10.0E+4       from [0.0:inf)      `ATTR(info="COULOMB SCATTERING COEFFICIENT");
-parameter real          ALPHAH      = 1.0E-20       from [0.0:inf)      `ATTR(info="HOOGE PARAMETER FOR MOBILITY FLUCTUATION NOISE MODEL");
-parameter real      KGFN        = 0.0       from [0.0:inf)      `ATTR(info="GATE FLICKER NOISE PARAMETER");
-parameter real      ECN         = 1.0E+4    from [0.0:inf)      `ATTR(info="CRITICAL FIELD VALUE");
-//parameter real        SDR         = 1.0E-10   from [0.0:inf)      `ATTR(info="SERIES RESISTANCE NOISE PARAMETER");
-parameter real      SDR         = 1.0E-6    from [0.0:inf)      `ATTR(info="SERIES RESISTANCE NOISE PARAMETER");
+    `MPIcz( LFNOI  ,   0       ,  ""    , "FLICKER NOISE MODEL SELECTION")
+    `MPRcz( KF     ,   0.0     ,  ""    , "FLICKER NOISE PARAMETER")
+    `MPRnb( AF     ,   1.0     ,  ""    , "FLICKER NOISE FREQUENCY EXPONENT")
+    `MPRcz( EF     ,   2.0     ,  ""    , "FLICKER NOISE TRANSCONDUCTANCE EXPONENT")
+    `MPRnb( NT     ,   1.0E+14 ,  ""    , "NUMBER OF TRAPPED CARRIERS")
+    `MPRnb( ALPHAC ,   10E+4   ,  ""    , "COULOMB SCATTERING COEFFICIENT")
+    `MPRnb( ALPHAH  ,   1.0E-20 ,  ""   , "HOOGE PARAMETER FOR MOBILITY FLUCTUATION NOISE MODEL")
+    `MPRnb( KGFN   ,   0.0     ,  ""    , "GATE FLICKER NOISE PARAMETER")
+    `MPRoz( ECN    ,   1.0E+4  ,  ""    , "CRITICAL FIELD VALUE")
+    `MPRnb( SDR    ,   1.0E-6 ,  ""     , "SERIES RESISTANCE NOISE PARAMETER")
+
 // LENGTH SCALING PARAMETERS (3)
 
-parameter real      LWR         = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING PARAMETER FOR WR");
-parameter real      LQWR        = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING PARAMETER FOR QWR");
-parameter real      LNWR        = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING PARAMETER FOR NWR");
-parameter real      LDPHIEDGE   = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING PARAMETER FOR DPHIEDGE");
-
+    `MPRnb( LWR      , 0.0,  "m**2", "LENGTH SCALING PARAMETER FOR WR")
+    `MPRnb( LQWR     , 0.0,  "m"   , "LENGTH SCALING PARAMETER FOR QWR")
+    `MPRnb( LNWR     , 0.0,  "m"   , "LENGTH SCALING PARAMETER FOR NWR")
+    `MPRnb( LDPHIEDGE, 0.0,  "m"   , "LENGTH SCALING PARAMETER FOR DPHIEDGE")
 
 // WIDTH SCALING PARAMETERS (11)
 
-parameter real      WLR         = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR LR");
-parameter real      WQLR        = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR QLR");
-parameter real      WNLR        = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR NLR");
-parameter real      WUCRIT      = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR UCRIT");
-parameter real      WLAMBDA     = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR LAMBDA");
-parameter real      WETAD       = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR ETAD");
-parameter real      WE0         = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR E0");
-parameter real      WE1         = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR E1");
-parameter real      WRLX        = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR RLX");
-parameter real      WUCEX       = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR UCEX");
-parameter real      WDPHIEDGE   = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING PARAMETER FOR DPHIEDGE");
+    `MPRnb( WLR      , 0.0,  "m**2", "WIDTH SCALING PARAMETER FOR LR")
+    `MPRnb( WQLR     , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR QLR")
+    `MPRnb( WNLR     , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR NLR")
+    `MPRnb( WUCRIT   , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR UCRIT")
+    `MPRnb( WLAMBDA  , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR LAMBDA")
+    `MPRnb( WETAD    , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR ETAD")
+    `MPRnb( WE0      , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR E0")
+    `MPRnb( WE1      , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR E1")
+    `MPRnb( WRLX     , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR RLX")
+    `MPRnb( WUCEX    , 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR UCEX")
+    `MPRnb( WDPHIEDGE, 0.0,  "m"   , "WIDTH SCALING PARAMETER FOR DPHIEDGE")
 
 // COMBINED SCALING PARAMETERS (2)
 
-parameter real      WLDPHIEDGE  = 0.0       from (-inf:inf)     `ATTR(info="FINE TUNING SCALING FOR COMBINED SHORT AND NARROW DEVICES FOR DPHIEDGE");
-parameter real      WLDGAMMAEDGE    = 0.0       from (-inf:inf)     `ATTR(info="FINE TUNING SCALING FOR COMBINED SHORT AND NARROW DEVICES FOR DGAMMAEDGE");
+    `MPRnb( WLDPHIEDGE, 0.0,  "m**2"   , "FINE TUNING SCALING FOR COMBINED SHORT AND NARROW DEVICES FOR DPHIEDGE")
+    `MPRnb( WLDGAMMAEDGE, 0.0,  "m**2" , "FINE TUNING SCALING FOR COMBINED SHORT AND NARROW DEVICES FOR DGAMMAEDGE")
 
 // EDGE DEVICE (3)
 
-parameter real      WEDGE       = 0.0       from [0.0:inf)      `ATTR(info="TOTAL EFFECTIVE WIDTH OF EDGE DEVICE FOR EDGE CONDUCTANCE EFFECT");
-parameter real      DGAMMAEDGE  = 0.0       from (-inf:inf)     `ATTR(info="DIFFERENTIAL GAMMA PARAMETER OF EDGE DEVICE WITH RESPECT TO THE MAIN DEVICE");
-parameter real      DPHIEDGE    = 0.0       from (-inf:inf)     `ATTR(info="DIFFERENTIAL PHI PARAMETER OF EDGE DEVICE WITH RESPECT TO THE MAIN DEVICE");
+    `MPRcz( WEDGE ,      0.0 , "m"       , "TOTAL EFFECTIVE WIDTH OF EDGE DEVICE FOR EDGE CONDUCTANCE EFFECT")
+    `MPRnb( DGAMMAEDGE , 0.0 , "sqrt(V)" , "DIFFERENTIAL GAMMA PARAMETER OF EDGE DEVICE WITH RESPECT TO THE MAIN DEVICE")
+    `MPRnb( DPHIEDGE ,   0.0 , "V"       , "DIFFERENTIAL PHI PARAMETER OF EDGE DEVICE WITH RESPECT TO THE MAIN DEVICE")
 
 // STI STRESS EFFECT (13)
 
-parameter real      SAREF       = 0.0       from [0.0:inf)      `ATTR(info="REFERENCE SA PARAMETER FOR STI STRESS EFFECT PARAMETER EXTRACION");
-parameter real      SBREF       = 0.0       from [0.0:inf)      `ATTR(info="REFERENCE SB PARAMETER FOR STI STRESS EFFECT PARAMETER EXTRACION");
-parameter real      WLOD        = 0.0       from (-inf:inf)     `ATTR(info="WIDTH EFFECTIVE PARAMETER FOR STI STRESS EFFECT");
-parameter real      KKP         = 0.0       from (-inf:inf)     `ATTR(info="MOBILITY PARAMETER FOR STI STRESS EFFECT");
-parameter real      LKKP        = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING OF MOBILITY FOR STI STRESS EFFECT");
-parameter real      WKKP        = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING OF MOBILITY FOR STI STRESS EFFECT");
-parameter real      PKKP        = 0.0       from (-inf:inf)     `ATTR(info="AREA SCALING OF MOBILITY FOR STI STRESS EFFECT");
-parameter real      TKKP        = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF MOBILITY FOR STI STRESS EFFECT");
-parameter real      LLODKKP     = 1.0       from (-inf:inf)     `ATTR(info="EXPONENTIAL LENGTH SCALING PARAMETER OF MOBILITY FOR STI STRESS EFFECT");
-parameter real      WLODKKP     = 1.0       from (-inf:inf)     `ATTR(info="EXPONENTIAL WIDTH SCALING PARAMETER OF MOBILITY FOR STI STRESS EFFECT");
-parameter real      KVTO        = 0.0       from (-inf:inf)     `ATTR(info="THRESHOLD VOLTAGE PARAMETER FOR STI STRESS EFFECT");
-parameter real      LKVTO       = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT");
-parameter real      WKVTO       = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT");
-parameter real      PKVTO       = 0.0       from (-inf:inf)     `ATTR(info="AREA SCALING OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT");
-parameter real      LLODKVTO    = 1.0       from (-inf:inf)     `ATTR(info="EXPONENTIAL LENGTH SCALING PARAMETER OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT");
-parameter real      WLODKVTO    = 1.0       from (-inf:inf)     `ATTR(info="EXPONENTIAL WIDTH SCALING PARAMETER OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT");
-parameter real      KGAMMA      = 0.0       from (-inf:inf)     `ATTR(info="BODY EFFECT COEFFICIENT PARAMETER FOR STI STRESS EFFECT");
-parameter real      LODKGAMMA   = 1.0       from (-inf:inf)     `ATTR(info="FINE TUNING PARAMETER FOR BODY EFFECT COEFFICIENT SCALING OF STI STRESS EFFECT");
-parameter real      KETAD       = 0.0       from (-inf:inf)     `ATTR(info="DIBL EFFECT PARAMETER FOR STI STRESS EFFECT");
-parameter real      LODKETAD    = 1.0       from (-inf:inf)     `ATTR(info="FINE TUNING PARAMETER FOR DIBL EFFECT PARAMETER SCALING OF STI STRESS EFFECT");
-parameter real      KUCRIT      = 0.0       from (-inf:inf)     `ATTR(info="CRITICAL VELOCITY OF VELOCITY SATURATION EFFECT PARAMETER FOR STI STRESS EFFECT");
-
-
+    `MPRcz( SAREF     , 0.0, "m", "REFERENCE SA PARAMETER FOR STI STRESS EFFECT PARAMETER EXTRACION")
+    `MPRcz( SBREF     , 0.0, "m", "REFERENCE SB PARAMETER FOR STI STRESS EFFECT PARAMETER EXTRACION")
+    `MPRcz( WLOD      , 0.0, "m", "WIDTH EFFECTIVE PARAMETER FOR STI STRESS EFFECT")
+    `MPRnb( KKP       , 0.0, "" , "MOBILITY PARAMETER FOR STI STRESS EFFECT")
+    `MPRnb( LKKP      , 0.0, "" , "LENGTH SCALING OF MOBILITY FOR STI STRESS EFFECT")
+    `MPRnb( WKKP      , 0.0, "" , "WIDTH SCALING OF MOBILITY FOR STI STRESS EFFECT")
+    `MPRnb( PKKP      , 0.0, "" , "AREA SCALING OF MOBILITY FOR STI STRESS EFFECT")
+    `MPRnb( TKKP      , 0.0, "" , "TEMPERATURE SCALING OF MOBILITY FOR STI STRESS EFFECT")
+    `MPRnb( LLODKKP   , 1.0, "" , "EXPONENTIAL LENGTH SCALING PARAMETER OF MOBILITY FOR STI STRESS EFFECT")
+    `MPRnb( WLODKKP   , 1.0, "" , "EXPONENTIAL WIDTH SCALING PARAMETER OF MOBILITY FOR STI STRESS EFFECT")
+    `MPRnb( KVTO      , 0.0, "" , "THRESHOLD VOLTAGE PARAMETER FOR STI STRESS EFFECT")
+    `MPRnb( LKVTO     , 0.0, "" , "LENGTH SCALING OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT")
+    `MPRnb( WKVTO     , 0.0, "" , "WIDTH SCALING OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT")
+    `MPRnb( PKVTO     , 0.0, "" , "AREA SCALING OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT")
+    `MPRnb( LLODKVTO  , 1.0, "" , "EXPONENTIAL LENGTH SCALING PARAMETER OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT")
+    `MPRnb( WLODKVTO  , 1.0, "" , "EXPONENTIAL WIDTH SCALING PARAMETER OF THRESHOLD VOLTAGE FOR STI STRESS EFFECT")
+    `MPRnb( KGAMMA    , 0.0, "" , "BODY EFFECT COEFFICIENT PARAMETER FOR STI STRESS EFFECT")
+    `MPRnb( LODKGAMMA , 1.0, "" , "FINE TUNING PARAMETER FOR BODY EFFECT COEFFICIENT SCALING OF STI STRESS EFFECT")
+    `MPRnb( KETAD     , 0.0, "" , "DIBL EFFECT PARAMETER FOR STI STRESS EFFECT")
+    `MPRnb( LODKETAD  , 1.0, "" , "FINE TUNING PARAMETER FOR DIBL EFFECT PARAMETER SCALING OF STI STRESS EFFECT")
+    `MPRnb( KUCRIT    , 0.0, "" , "CRITICAL VELOCITY OF VELOCITY SATURATION EFFECT PARAMETER FOR STI STRESS EFFECT")
 
 ////////////////////////////////
 // TEMPERATURE PARAMETERS (8) //
 ////////////////////////////////
 
-parameter real      TCV         = 600.0E-6  from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF THRESHOLD VOLTAGE");
-parameter real      BEX         = -1.5      from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF MOBILITY");
-parameter real      TE0EX       = 0.5       from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF E0");
-parameter real      TE1EX       = 0.5       from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF E1");
-parameter real      TETA        = -0.9E-3   from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF ETA PARAMETER");
-parameter real      UCEX        = 1.5       from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF CRITICAL VELOCITY OF VELOCITY SATURATION EFFECT");
-parameter real      TLAMBDA     = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF LAMBDA PARAMETER");
-parameter real      IBBT        = 800.0E-6  from (-inf:inf)     `ATTR(info="TEMPERATURE SCALING OF IBB");
+    `MPRnb( TCV  ,   600e-6 ,  "V/K"    , "TEMPERATURE SCALING OF THRESHOLD VOLTAGE")
+    `MPRnb( BEX  ,  -1.5    ,  ""       , "TEMPERATURE SCALING OF MOBILITY")
+    `MPRnb( TE0EX  , 0.5    ,  ""       , "TEMPERATURE SCALING OF E0")
+    `MPRnb( TE1EX  , 0.5    ,  ""       , "TEMPERATURE SCALING OF E1")
+    `MPRnb( TETA  , -0.9e-3 ,  "1/K"    , "TEMPERATURE SCALING OF ETA PARAMETER")
+    `MPRnb( UCEX   , 1.5    ,  ""       , "TEMPERATURE SCALING OF CRITICAL VELOCITY OF VELOCITY SATURATION EFFECT")
+    `MPRnb( TLAMBDA , 0.0   ,  ""       , "TEMPERATURE SCALING OF LAMBDA PARAMETER")
+    `MPRnb( IBBT    , 800e-6 , ""       , "TEMPERATURE SCALING OF IBB")
 
 // TEMPERATURE AND GEOMETRY SCALING (3)
 
-parameter real      TCVL        = 0.0       from (-inf:inf)     `ATTR(info="LENGTH SCALING OF TCV");
-parameter real      TCVW        = 0.0       from (-inf:inf)     `ATTR(info="WIDTH SCALING OF TCV");
-parameter real      TCVWL       = 0.0       from (-inf:inf)     `ATTR(info="AREA SCALING OF TCV");
+    `MPRnb( TCVL    , 0.0 ,    "m*V/K",         "LENGTH SCALING OF TCV")
+    `MPRnb( TCVW    , 0.0 ,    "m**2*V/K*V/K" , "WIDTH SCALING OF TCV")
+    `MPRnb( TCVWL   , 0.0 ,    "m**2*V/K"   ,   "AREA SCALING OF TCV")
 
 ////////////////////
 // EXTRINSIC PART //
@@ -277,42 +259,42 @@ parameter real      TCVWL       = 0.0       from (-inf:inf)     `ATTR(info="AREA
 
 // OVERLAP CAPACITANCES (8)
 
-parameter real      GAMMAOV     = 1.6       from (0.0:inf)      `ATTR(info="BODY EFFECT COEFFICIENT OF THE GATE OVERLAP REGION");
-parameter real      GAMMAGOV    = 10.0      from (0.0:inf)      `ATTR(info="GATE DOPING COEFFICIENT FOR POLYSILICON DEPLETION EFFECT OF THE GATE OVERLAP REGION");
-parameter real      VFBOV       = 0.0       from (-inf:inf)     `ATTR(info="FLAT-BAND VOLTAGE OF THE GATE OVERLAP REGION");
-parameter real      LOV         = 20.0E-9   from [0.0:inf)      `ATTR(info="EFFECTIVE LENGTH OF THE GATE OVERLAP REGION");
-parameter real      VOV         = 1.0       from [0.0:1.0]      `ATTR(info="BIAS PARAMETER OF THE OVERLAP CAPACITANCES");
-parameter real      CGSO        = 0.0       from [0.0:inf)      `ATTR(info="BIAS-INDEPENDENT OVERLAP CAPACITANCE PER GATE WIDTH UNIT BETWEEN GATE AND SOURCE");
-parameter real      CGDO        = 0.0       from [0.0:inf)      `ATTR(info="BIAS-INDEPENDENT OVERLAP CAPACITANCE PER GATE WIDTH UNIT BETWEEN GATE AND DRAIN");
-parameter real      CGBO        = 0.0       from [0.0:inf)      `ATTR(info="BIAS-INDEPENDENT OVERLAP CAPACITANCE PER GATE LENGTH UNIT BETWEEN GATE AND BULK");
+    `MPRoz( GAMMAOV  ,  1.6   , "sqr(V)"         , "BODY EFFECT COEFFICIENT OF THE GATE OVERLAP REGION")
+    `MPRoz( GAMMAGOV ,  10.0  , "sqr(V)"         , "GATE DOPING COEFFICIENT FOR POLYSILICON DEPLETION EFFECT OF THE GATE OVERLAP REGION")
+    `MPRnb( VFBOV    ,  0.0   , "V"              , "FLAT-BAND VOLTAGE OF THE GATE OVERLAP REGION")
+    `MPRcz( LOV      ,  20e-9 , "m"              , "EFFECTIVE LENGTH OF THE GATE OVERLAP REGION")
+    `MPRcc( VOV      ,  1.0   , "" ,    0.0, 1.0 , "BIAS PARAMETER OF THE OVERLAP CAPACITANCES")
+    `MPRcz( CGSO     , 0.0    , "F/m"            , "BIAS-INDEPENDENT OVERLAP CAPACITANCE PER GATE WIDTH UNIT BETWEEN GATE AND SOURCE")
+    `MPRcz( CGDO     , 0.0    , "F/m"            , "BIAS-INDEPENDENT OVERLAP CAPACITANCE PER GATE WIDTH UNIT BETWEEN GATE AND DRAIN")
+    `MPRcz( CGBO     , 0.0    , "F/m"            , "BIAS-INDEPENDENT OVERLAP CAPACITANCE PER GATE LENGTH UNIT BETWEEN GATE AND BULK")
 
 // FRINGING CAPACITANCE (4)
 
-parameter real      KJF     = 0.0       from [0.0:inf)      `ATTR(info="FRINGING CAPACITANCE PARAMETER");
-parameter real      CJF     = 0.0       from [0.0:inf)      `ATTR(info="BIAS SCALING OF FRINGING CAPACITANCE");
-parameter real      VFR         = 0.0       from [0.0:inf)      `ATTR(info="BUILT-IN VOLTAGE FINE TUNING FOR FRINGING CAPACITANCE MODEL");
-parameter real      DFR         = 1.0E-3    from [0.0:inf)      `ATTR(info="SMOOTH PARAMETER OF FRINGING CAPACITANCE MODEL");
+    `MPRcz( KJF ,  0.0    , "C/m"   ,      "FRINGING CAPACITANCE PARAMETER")
+    `MPRcz( CJF ,  0.0    , "1/V"   ,      "BIAS SCALING OF FRINGING CAPACITANCE")
+    `MPRcz( VFR ,  0.0    , "V"     ,      "BUILT-IN VOLTAGE FINE TUNING FOR FRINGING CAPACITANCE MODEL")
+    `MPRcz( DFR ,  1e-3   , ""      ,      "SMOOTH PARAMETER OF FRINGING CAPACITANCE MODEL")
 
 // SERIES RESISTANCES RS AND RD
 
 // - TYPICAL SPICE MODEL
 
-parameter real      HDIF        = 0.0e-6    from [0.0:inf)      `ATTR(info="HALF LENGTH OF THE ACTIVE AREA");
-parameter real      RSH         = 0.0       from [0.0:inf)      `ATTR(info="SQUARE RESISTANCE OF ACTIVE AREA");
-parameter real      LDIF        = 0.0       from [0.0:inf)      `ATTR(info="DISTANCE BETWEEN THE MIDDLE OF THE ACTIVE AREA AND THE START OF THE CHANNEL");
-parameter real      RS      = 0.0       from [0.0:inf)      `ATTR(info="LDD SOURCE SERIES RESISTANCE");
-parameter real      RD      = 0.0       from [0.0:inf)      `ATTR(info="LDD DRAIN SERIES RESISTANCE");
+    `MPRcz( HDIF ,  0.0     , "m"       ,    "HALF LENGTH OF THE ACTIVE AREA")
+    `MPRcz( RSH  ,  0.0     , "Ohms/sq" ,    "SQUARE RESISTANCE OF ACTIVE AREA")
+    `MPRcz( LDIF ,  0.0     , "m"       ,    "DISTANCE BETWEEN THE MIDDLE OF THE ACTIVE AREA AND THE START OF THE CHANNEL")
+    `MPRcz( RS   ,  0.0     , "Ohms/sq" ,    "LDD SOURCE SERIES RESISTANCE")
+    `MPRcz( RD   ,  0.0     , "Ohms/sq" ,    "LDD DRAIN SERIES RESISTANCE")
 
 // - NON-GEOMETRICAL APPROACH
 
-parameter real      RLX         = -1.0      from (-inf:inf)     `ATTR(info="EXTERNAL SERIES RESISTANCE PER WIDTH UNIT");
-parameter real      RSX         = -1.0      from (-inf:inf)     `ATTR(info="EXTERNAL SERIES RESISTANCE PER WIDTH UNIT, SOURCE SIDE (ASYMMETRIC MODEL)");
-parameter real      RDX         = -1.0      from (-inf:inf)     `ATTR(info="EXTERNAL SERIES RESISTANCE PER WIDTH UNIT, DRAIN SIDE (ASYMMETRIC MODEL)");
+    `MPRnb( RLX ,  -1.0     , "Ohm/m"   , "EXTERNAL SERIES RESISTANCE PER WIDTH UNIT")
+    `MPRnb( RSX ,  -1.0     , "Ohm/m" ,   "EXTERNAL SERIES RESISTANCE PER WIDTH UNIT, SOURCE SIDE (ASYMMETRIC MODEL)")
+    `MPRnb( RDX ,  -1.0     , "Ohm/m"   , "EXTERNAL SERIES RESISTANCE PER WIDTH UNIT, DRAIN SIDE (ASYMMETRIC MODEL)")
 
 // - TEMPERATURE SCALING
 
-parameter real      TR      = 0.0       from (-inf:inf)     `ATTR(info="FIRST ORDER RESISTANCE TEMPERATURE SCALING PARAMETER");
-parameter real      TR2         = 0.0       from (-inf:inf)     `ATTR(info="SECOND ORDER RESISTANCE TEMPERATURE SCALING PARAMETER");
+    `MPRnb( TR   ,  0.0     , "Ohms/K"  ,    "FIRST ORDER RESISTANCE TEMPERATURE SCALING PARAMETER")
+    `MPRnb( TR2  ,  0.0     , "Ohms/K**2"  , "SECOND ORDER RESISTANCE TEMPERATURE SCALING PARAMETER")
 
 // JUNCTION DRAIN - BULK AND SOURCE-BULK AREA, CURRENT, CAPACITANCE
 
@@ -320,112 +302,112 @@ parameter real      GMIN        = 0.0       from [0.0:inf)      `ATTR(info="MINI
 
 // SOURCE SIDE
 
-parameter real      NJS         = 1.0       from (-inf:inf)     `ATTR(info="SLOPE FACTOR FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      XJBVS       = 0.0       from (-inf:inf)     `ATTR(info="BREAK-DOWN EFFECT COEFFICIENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      BVS         = 10.0      from (-inf:inf)     `ATTR(info="BREAK-DOWN VOLTAGE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRoz( NJS       ,1.0    , ""                   ,"SLOPE FACTOR FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( XJBVS     ,0.0    , ""                   ,"BREAK-DOWN EFFECT COEFFICIENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( BVS       ,10.0   , "V"                  ,"BREAK-DOWN VOLTAGE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      JSS         = 0.0E-09   from (-inf:inf)     `ATTR(info="AREA COMPONENT OF CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      JSSWS       = 0.0E-12   from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      JSSWGS      = 0.0E-12   from (-inf:inf)     `ATTR(info="GATE-SIDE COMPONENT OF CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( JSS       ,1.0e-4 , "A/m^2"              ,"AREA COMPONENT OF CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JSSWS     ,0.0    , "A/m"                ,"SIDEWAYS COMPONENT OF CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JSSWGS    ,0.0    , "A/m"                ,"GATE-SIDE COMPONENT OF CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      JTSS        = 0.0E-09   from (-inf:inf)     `ATTR(info="AREA COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      JTSSWS      = 0.0E-12   from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      JTSSWGS     = 0.0E-12   from (-inf:inf)     `ATTR(info="GATESIDE COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( JTSS      ,0.0    , "A/m"                ,"AREA COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JTSSWS    ,0.0    , "A/m^2"              ,"SIDEWAYS COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JTSSWGS   ,0.0    , "A/m"                ,"GATESIDE COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      NJTSS       = 1.0       from (-inf:inf)     `ATTR(info="AREA SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      NJTSSWS     = 1.0       from (-inf:inf)     `ATTR(info="SIDEWAYS SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      NJTSSWGS    = 1.0       from (-inf:inf)     `ATTR(info="GATESIDE SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRoz( NJTSS     ,20.0   , ""                   ,"AREA SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRoz( NJTSSWS   ,20.0   , ""                   ,"SIDEWAYS SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRoz( NJTSSWGS  ,20.0   , ""                   ,"GATESIDE SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      VTSS        = 0.0       from (-inf:inf)     `ATTR(info="AREA VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      VTSSWS      = 0.0       from (-inf:inf)     `ATTR(info="SIDEWAYS VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      VTSSWGS     = 0.0       from (-inf:inf)     `ATTR(info="GATESIDE VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( VTSS      ,10.0   , "V"                  ,"AREA VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( VTSSWS    ,10.0   , "V"                  ,"SIDEWAYS VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( VTSSWGS   ,10.0   , "V"                  ,"GATESIDE VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      CJS         = 0.0E-06   from (-inf:inf)     `ATTR(info="AREA COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      CJSWS       = 0.0E-09   from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      CJSWGS      = 0.0E-09   from (-inf:inf)     `ATTR(info="GATESIDE COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( CJS       ,5.0e-4 , "F/m^2"              ,"AREA COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( CJSWS     ,5.0e-10, "F/m"                ,"SIDEWAYS COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( CJSWGS    ,0.0    , "F/m"                ,"GATESIDE COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      PBS         = 0.800     from (-inf:inf)     `ATTR(info="AREA PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      PBSWS       = 0.600     from (-inf:inf)     `ATTR(info="SIDEWAYS PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      PBSWGS      = 0.600     from (-inf:inf)     `ATTR(info="GATESIDE PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( PBS       ,1.0    , "V"                  ,"AREA PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( PBSWS     ,1.0    , "V"                  ,"SIDEWAYS PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( PBSWGS    ,PBSWS  , "V"                  ,"GATESIDE PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      MJS         = 0.900     from (-inf:inf)     `ATTR(info="AREA EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      MJSWS       = 0.700     from (-inf:inf)     `ATTR(info="SIDEWAYS EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      MJSWGS      = 0.700     from (-inf:inf)     `ATTR(info="GATESIDE EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRoo( MJS       ,0.5    , ""       ,-inf  ,1.0 ,"AREA EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRoo( MJSWS     ,0.33   , ""       ,-inf  ,1.0 ,"SIDEWAYS EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRoo( MJSWGS    ,MJSWS  , ""       ,-inf  ,1.0 ,"GATESIDE EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      XTIS        = 3.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( XTIS      ,3.0    , ""                   ,"TEMPERATURE DEPENDENCE FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      XTSS        = 0.0       from (-inf:inf)     `ATTR(info="AREA COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      XTSSWS      = 0.0       from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      XTSSWGS     = 0.0       from (-inf:inf)     `ATTR(info="GATESIDE COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( XTSS      ,0.02   , ""                   ,"AREA COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( XTSSWS    ,0.02   , ""                   ,"SIDEWAYS COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( XTSSWGS   ,0.02   , ""                   ,"GATESIDE COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      TNJTSS      = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF NJTSS (AREA), JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      TNJTSSWS    = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF NJTSSWS (SIDEWAYS), JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
-parameter real      TNJTSSWGS   = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF NJTSSWGS (GATESIDE), JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( TNJTSS    ,0.0    , ""                   ,"TEMPERATURE DEPENDENCE OF NJTSS (AREA), JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( TNJTSSWS  ,0.0    , ""                   ,"TEMPERATURE DEPENDENCE OF NJTSSWS (SIDEWAYS), JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( TNJTSSWGS ,0.0    , ""                   ,"TEMPERATURE DEPENDENCE OF NJTSSWGS (GATESIDE), JUNCTION DIODE, SOURCE SIDE (ASYMMETRICAL MODEL)")
 
 // BOTH SIDES
 
-parameter real      TCJ         = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF AREA COMPONENT OF CAPACITANCE FOR JUNCTION DIODES (CJS AND CJD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)");
-parameter real      TCJSW       = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF SIDEWAYS COMPONENT OF CAPACITANCE FOR JUNCTION DIODES (CJSWS AND CJSWD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)");
-parameter real      TCJSWG      = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF GATESIDE COMPONENT OF CAPACITANCE FOR JUNCTION DIODES (CJSWGS AND CJSWGD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)");
+    `MPRnb( TCJ   , 0.0, "1/K" , "TEMPERATURE DEPENDENCE OF AREA COMPONENT OF CAPACITANCE FOR JUNCTION DIODES (CJS AND CJD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)")
+    `MPRnb( TCJSW , 0.0, "1/K" , "TEMPERATURE DEPENDENCE OF SIDEWAYS COMPONENT OF CAPACITANCE FOR JUNCTION DIODES (CJSWS AND CJSWD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)")
+    `MPRnb( TCJSWG, 0.0, "1/K" , "TEMPERATURE DEPENDENCE OF GATESIDE COMPONENT OF CAPACITANCE FOR JUNCTION DIODES (CJSWGS AND CJSWGD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)")
 
-parameter real      TPB         = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF AREA PARAMETER OF CAPACITANCE FOR JUNCTION DIODES (PBS AND PBD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)");
-parameter real      TPBSW       = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF SIDEWAYS PARAMETER OF CAPACITANCE FOR JUNCTION DIODES (PBSWS AND PBSWD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)");
-parameter real      TPBSWG      = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF GATESIDE PARAMETER OF CAPACITANCE FOR JUNCTION DIODES (PBSWGS AND PBSWGD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)");
+    `MPRnb( TPB   , 0.0, "V/K" , "TEMPERATURE DEPENDENCE OF AREA PARAMETER OF CAPACITANCE FOR JUNCTION DIODES (PBS AND PBD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)")
+    `MPRnb( TPBSW , 0.0, "V/K" , "TEMPERATURE DEPENDENCE OF SIDEWAYS PARAMETER OF CAPACITANCE FOR JUNCTION DIODES (PBSWS AND PBSWD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)")
+    `MPRnb( TPBSWG, 0.0, "V/K" , "TEMPERATURE DEPENDENCE OF GATESIDE PARAMETER OF CAPACITANCE FOR JUNCTION DIODES (PBSWGS AND PBSWGD), BOTH (SOURCE AND DRAIN) SIDES (ASYMMETRICAL MODEL)")
 
 // DRAIN SIDE
 
-parameter real      NJD         = 1.0       from (-inf:inf)     `ATTR(info="SLOPE FACTOR FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      XJBVD       = 0.0       from (-inf:inf)     `ATTR(info="BREAK-DOWN EFFECT COEFFICIENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      BVD         = 10.0      from (-inf:inf)     `ATTR(info="BREAK-DOWN VOLTAGE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRoz( NJD       ,1.0    , ""                   ,"SLOPE FACTOR FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( XJBVD     ,0.0    , ""                   ,"BREAK-DOWN EFFECT COEFFICIENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( BVD       ,10.0   , "V"                  ,"BREAK-DOWN VOLTAGE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      JSD         = 0.0E-09   from (-inf:inf)     `ATTR(info="AREA COMPONENT OF CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      JSSWD       = 0.0E-12   from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      JSSWGD      = 0.0E-12   from (-inf:inf)     `ATTR(info="GATE-SIDE COMPONENT OF CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( JSD       ,1.0e-4 , "A/m^2"              ,"AREA COMPONENT OF CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JSSWD     ,0.0    , "A/m"                ,"SIDEWAYS COMPONENT OF CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JSSWGD    ,0.0    , "A/m"                ,"GATE-SIDE COMPONENT OF CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      JTSD        = 0.0E-09   from (-inf:inf)     `ATTR(info="AREA COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      JTSSWD      = 0.0E-12   from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      JTSSWGD     = 0.0E-12   from (-inf:inf)     `ATTR(info="GATESIDE COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( JTSD      ,0.0    , "A/m"                ,"AREA COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JTSSWD    ,0.0    , "A/m^2"              ,"SIDEWAYS COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( JTSSWGD   ,0.0    , "A/m"                ,"GATESIDE COMPONENT OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      NJTSD       = 1.0       from (-inf:inf)     `ATTR(info="AREA SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      NJTSSWD     = 1.0       from (-inf:inf)     `ATTR(info="SIDEWAYS SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      NJTSSWGD    = 1.0       from (-inf:inf)     `ATTR(info="GATESIDE SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRoz( NJTSD     ,20.0   , ""                   ,"AREA SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRoz( NJTSSWD   ,20.0   , ""                   ,"SIDEWAYS SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRoz( NJTSSWGD  ,20.0   , ""                   ,"GATESIDE SLOPE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      VTSD        = 0.0       from (-inf:inf)     `ATTR(info="AREA VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      VTSSWD      = 0.0       from (-inf:inf)     `ATTR(info="SIDEWAYS VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      VTSSWGD     = 0.0       from (-inf:inf)     `ATTR(info="GATESIDE VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( VTSD      ,10.0   , "V"                  ,"AREA VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( VTSSWD    ,10.0   , "V"                  ,"SIDEWAYS VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( VTSSWGD   ,10.0   , "V"                  ,"GATESIDE VOLTAGE FACTOR OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      CJD         = 0.0E-06   from (-inf:inf)     `ATTR(info="AREA COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      CJSWD       = 0.0E-09   from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      CJSWGD      = 0.0E-09   from (-inf:inf)     `ATTR(info="GATESIDE COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( CJD       ,5.0e-4 , "F/m^2"              ,"AREA COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( CJSWD     ,5.0e-10, "F/m"                ,"SIDEWAYS COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( CJSWGD    ,0.0    , "F/m"                ,"GATESIDE COMPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      PBD         = 0.800     from (-inf:inf)     `ATTR(info="AREA PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      PBSWD       = 0.600     from (-inf:inf)     `ATTR(info="SIDEWAYS PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      PBSWGD      = 0.600     from (-inf:inf)     `ATTR(info="GATESIDE PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRcz( PBD       ,1.0    , "V"                  ,"AREA PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( PBSWD     ,1.0    , "V"                  ,"SIDEWAYS PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRcz( PBSWGD    ,PBSWD  , "V"                  ,"GATESIDE PARAMETER OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      MJD         = 0.900     from (-inf:inf)     `ATTR(info="AREA EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      MJSWD       = 0.700     from (-inf:inf)     `ATTR(info="SIDEWAYS EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      MJSWGD      = 0.700     from (-inf:inf)     `ATTR(info="GATESIDE EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRoo( MJD       ,0.5    , ""       ,-inf  ,1.0 ,"AREA EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRoo( MJSWD     ,0.33   , ""       ,-inf  ,1.0 ,"SIDEWAYS EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRoo( MJSWGD    ,MJSWD  , ""       ,-inf  ,1.0 ,"GATESIDE EXPONENT OF CAPACITANCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      XTID        = 3.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( XTID      ,3.0    , ""                   ,"TEMPERATURE DEPENDENCE FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      XTSD        = 0.0       from (-inf:inf)     `ATTR(info="AREA COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      XTSSWD      = 0.0       from (-inf:inf)     `ATTR(info="SIDEWAYS COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      XTSSWGD     = 0.0       from (-inf:inf)     `ATTR(info="GATESIDE COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( XTSD      ,0.02   , ""                   ,"AREA COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( XTSSWD    ,0.02   , ""                   ,"SIDEWAYS COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( XTSSWGD   ,0.02   , ""                   ,"GATESIDE COMPONENT OF TEMPERATURE DEPENDENCE OF TRAP-ASSISTED CURRENT FOR JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
-parameter real      TNJTSD      = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF NJTSS (AREA), JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      TNJTSSWD    = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF NJTSSWS (SIDEWAYS), JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
-parameter real      TNJTSSWGD   = 0.0       from (-inf:inf)     `ATTR(info="TEMPERATURE DEPENDENCE OF NJTSSWGS (GATESIDE), JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)");
+    `MPRnb( TNJTSD    ,0.0    , ""                   ,"TEMPERATURE DEPENDENCE OF NJTSS (AREA), JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( TNJTSSWD  ,0.0    , ""                   ,"TEMPERATURE DEPENDENCE OF NJTSSWS (SIDEWAYS), JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
+    `MPRnb( TNJTSSWGD ,0.0    , ""                   ,"TEMPERATURE DEPENDENCE OF NJTSSWGS (GATESIDE), JUNCTION DIODE, DRAIN SIDE (ASYMMETRICAL MODEL)")
 
 // PARAMETERS RF
 
-parameter real      RGSH        = 3.0       from [0.0:inf)      `ATTR(info="GATE SHEET REISTANCE");
-parameter real      GC      = 1     from [1.0:2.0]      `ATTR(info="TYPE OF GATE CONTACTS (GC = 1: SINLGE SIDED, GC = 2: BOTH SIDES)");
-parameter real      KRGL1       = 0.0       from [0.0:inf)      `ATTR(info="GATE RESISTANCE LENGTH SCALING PARAMETER");
-parameter real      RDSBSH      = 1.0E+3    from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK SHEET RESISTANCE BETWEEN INTERNAL DRAIN AND SOURCE NODES (USED AT RF AND NQS MODES)");
-parameter real      RBWSH       = 3.0E-3    from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK BULK RESISTANCE PER WIDTH UNIT BETWEEN INTERNAL BULK AND EXTERNAL BULK NODES (USED AT RF4, RF AND NQS MODES)");
-parameter real      RBN         = 0.0       from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK BULK RESISTANCE PER FINGER BETWEEN INTERNAL BULK AND EXTERNAL BULK NODES (USED AT RF4, RF AND NQS MODES)");
-parameter real      RSBWSH      = 1.0E-3    from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK RESISTANCE PER WIDTH UNIT BETWEEN INTERNAL SOURCE AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)");
-parameter real      RSBN        = 0.0       from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK RESISTANCE PER FINGER BETWEEN INTERNAL SOURCE AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)");
-parameter real      RDBWSH      = 1.0E-3    from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK RESISTANCE PER WIDTH UNIT BETWEEN INTERNAL DRAIN AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)");
-parameter real      RDBN        = 0.0       from [0.0:inf)      `ATTR(info="SUBSTRATE NETWORK RESISTANCE PER FINGER BETWEEN INTERNAL DRAIN AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)");
-parameter real      RINGTYPE    = 1.0       from [0.0:inf)      `ATTR(info="RINGTYPE, SHAPE OF BULK CONNECTOR (RINGTYPE = 1 FOR HORSE-SHOE, THREE SIDES CONTACT, RINGTYPE = 2 FOR SYMMETRIC, TWO SIDES CONTACT), (USED AT RF4, RF AND NQS MODES)");
+    `MPRcz( RGSH     , 3.0  , "Ohms/sq" ,          "GATE SHEET REISTANCE")
+    `MPIcc( GC       , 1    , ""        , 1 , 2,   "TYPE OF GATE CONTACTS (GC = 1: SINLGE SIDED, GC = 2: BOTH SIDES)")
+    `MPRnb( KRGL1    , 0.0  , "1/m"     ,          "GATE RESISTANCE LENGTH SCALING PARAMETER")
+    `MPRoz( RDSBSH   , 1e+3 , "Ohms/sq" ,          "SUBSTRATE NETWORK SHEET RESISTANCE BETWEEN INTERNAL DRAIN AND SOURCE NODES (USED AT RF AND NQS MODES)")
+    `MPRoz( RBWSH    , 3e-3 , "Ohms/m"  ,          "SUBSTRATE NETWORK BULK RESISTANCE PER WIDTH UNIT BETWEEN INTERNAL BULK AND EXTERNAL BULK NODES (USED AT RF4, RF AND NQS MODES)")
+    `MPRcz( RBN      , 0.0  , "Ohms"    ,          "SUBSTRATE NETWORK BULK RESISTANCE PER FINGER BETWEEN INTERNAL BULK AND EXTERNAL BULK NODES (USED AT RF4, RF AND NQS MODES)")
+    `MPRoz( RSBWSH   , 1e-3 , "Ohms/m" ,           "SUBSTRATE NETWORK RESISTANCE PER WIDTH UNIT BETWEEN INTERNAL SOURCE AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)")
+    `MPRcz( RSBN     , 0.0  , "Ohms" ,             "SUBSTRATE NETWORK RESISTANCE PER FINGER BETWEEN INTERNAL SOURCE AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)")
+    `MPRoz( RDBWSH   , 1e-3 , "Ohms/m" ,           "SUBSTRATE NETWORK RESISTANCE PER WIDTH UNIT BETWEEN INTERNAL DRAIN AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)")
+    `MPRcz( RDBN     , 0.0  , "Ohms" ,             "SUBSTRATE NETWORK RESISTANCE PER FINGER BETWEEN INTERNAL DRAIN AND EXTERNAL BULK NODES (USED AT RF AND NQS MODES)")
+    `MPIcc( RINGTYPE , 1    , ""        , 1 , 2,   "RINGTYPE, SHAPE OF BULK CONNECTOR (RINGTYPE = 1 FOR HORSE-SHOE, THREE SIDES CONTACT, RINGTYPE = 2 FOR SYMMETRIC, TWO SIDES CONTACT), (USED AT RF4, RF AND NQS MODES)")
