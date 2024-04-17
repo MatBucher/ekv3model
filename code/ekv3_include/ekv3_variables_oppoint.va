@@ -4,16 +4,16 @@
 /////////////////////////////////////////////////////////////////////////////
 // OPPATTR function used for printing Opeating Points
 // insideADMS OPPATTR (*spice:name=1 , info=2 , unit=3 , ask="yes" *)
-// else   	OPPATTR (* desc=2 , units=3 *)
+// else     OPPATTR (* desc=2 , units=3 *)
 /////////////////////////////////////////////////////////////////////////////
 
 ///// POTENTIAL INFO ///////////////////////
 
-`OPPATTR("VS","VS","V") real 	 VS;
-`OPPATTR("VD","VD","V") real 	 VD;
-`OPPATTR("VG","VG","V") real 	 VG;
-`OPPATTR("VB","VB","V") real	 VB;
-`OPPATTR("VDS","VDS","V") real	VDS;
+`OPPATTR("VS","VS","V") real     VS;
+`OPPATTR("VD","VD","V") real     VD;
+`OPPATTR("VG","VG","V") real     VG;
+`OPPATTR("VB","VB","V") real     VB;
+`OPPATTR("VDS","VDS","V") real  VDS;
 `OPPATTR("VGS","VGS","V") real  VGS;
 `OPPATTR("VBS","VBS","V") real  VBS;
 `OPPATTR("VDB","VDB","V") real  VDB;
@@ -28,8 +28,8 @@
 `OPPATTR("IBex","Extrinsic Current Bulk Side","A") real IB;
 ///////////////////////////////////////////////
 `OPPATTR("n","Slope Factor n","") real slopefactor;
-//`OPPATTR("nq","Inversion Charge Linearization Factor","") real 	 nq;
-`OPPATTR("Vp","Pinch-Off Voltage","") real 	 Vp;
+//`OPPATTR("nq","Inversion Charge Linearization Factor","") real     nq;
+`OPPATTR("Vp","Pinch-Off Voltage","") real   Vp;
 `OPPATTR("VOD","Overdrive Voltage n*(Vp-Vs)","V") real VOD;
 `OPPATTR("VDSAT","Saturation Voltage","V") real VDSAT;
 `OPPATTR("sat","Saturation Flag","s") real sat;
@@ -43,9 +43,9 @@
 `OPPATTR("Nf","Number of fingers","") real Nf;
 //////CURRENT - CHARGE  INFO ////////////////////
 //`OPPATTR("if","Forward Normalized Current","") real      if_;
-//`OPPATTR("irp","Reverse Normalized Current","") real 	 irp;
+//`OPPATTR("irp","Reverse Normalized Current","") real   irp;
 //`OPPATTR("qs","Normalized Source Inversion Charge","") real      qs;
-//`OPPATTR("qdp","Normalized Drain Inversion Charge","") real 	 qdp;
+//`OPPATTR("qdp","Normalized Drain Inversion Charge","") real    qdp;
 `OPPATTR("IC","Inversion Coefficient","")real ic ;
 `OPPATTR("ISPEC","Specific Current","A") real ISPEC;
 //////TRANCONDUCTANCE INFO //////////////////

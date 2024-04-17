@@ -1,69 +1,69 @@
 `ifdef DEFINITIONS_INCLUDE
 `else
-`define TAD		       (0.1E-9)
+`define TAD            (0.1E-9)
 // Physical Constants
 //
 // Silicon Electrical Permittivity [F/m]
-`define C_EPSSIL		(1.03594314E-10)
+`define C_EPSSIL        (1.03594314E-10)
 // Oxide Electrical Permittivity [F/m]
-`define C_EPSOX			(34.53144E-12)
+`define C_EPSOX         (34.53144E-12)
 // Electron Charge [C]
-`define C_QE			(1.602E-19)
+`define C_QE            (1.602E-19)
 // Boltzmann constant [J/K]
-`define C_K			(1.3807E-23)
+`define C_K         (1.3807E-23)
 
 // Thermal Potential, as a function of temperature (T) in K.
-`define UT(T) 			((`C_K * (T)) / `C_QE)
+`define UT(T)           ((`C_K * (T)) / `C_QE)
 
-// Frequently Used Numbers 
+// Frequently Used Numbers
 //
 // Square root of two
-`define SQRT2			(1.4142135623730950488016887242097)
+`define SQRT2           (1.4142135623730950488016887242097)
 // One third
-`define ONE3RD			(0.33333333333333333333333333333333)
+`define ONE3RD          (0.33333333333333333333333333333333)
 // Two thirds
-`define TWO3RDS			(0.66666666666666666666666666666667)
+`define TWO3RDS         (0.66666666666666666666666666666667)
 // One over square root of two
-`define ONESQRT2		(0.70710678118654752440084436210485)
+`define ONESQRT2        (0.70710678118654752440084436210485)
 // The pi number, the ratio of circumference to diameter at a circle
-`define PI 			(3.1415926535897932384626433832795)
+`define PI          (3.1415926535897932384626433832795)
 
 // Small Positive Number
-`define POS_MIN			(1.0E-6)
-// The minimum value of a resistance. 
-`define MINIMUM_RESISTANCE	(1.0E-3)
+`define POS_MIN         (1.0E-6)
+// The minimum value of a resistance.
+`define MINIMUM_RESISTANCE  (1.0E-3)
 
 // Useful mathematical functions
 //
 // Maximum function (not smooth)
-`define MAX(x,y) 		((x)>(y)?(x):(y))
+`define MAX(x,y)        ((x)>(y)?(x):(y))
 // Minimum function (not smooth)
-`define MIN(x,y) 		((x)<(y)?(x):(y))
+`define MIN(x,y)        ((x)<(y)?(x):(y))
 // Nested maximum in minimum function (not smooth)
-`define MIN_MAX(val,min,max) 	(`MIN(`MAX(val,min),max))
+`define MIN_MAX(val,min,max)    (`MIN(`MAX(val,min),max))
 // Maximum function (smoothened)
-`define MAXA(x,y,a) 		(0.5*((x)+(y)+sqrt(((x)-(y))*((x)-(y))+(a))))
+`define MAXA(x,y,a)         (0.5*((x)+(y)+sqrt(((x)-(y))*((x)-(y))+(a))))
 // Minimum function (smoothened)
-`define MINA(x,y,a) 		(0.5*((x)+(y)-sqrt(((x)-(y))*((x)-(y))+(a))))
+`define MINA(x,y,a)         (0.5*((x)+(y)-sqrt(((x)-(y))*((x)-(y))+(a))))
 // Nested maximum in minimum function (smoothened)
 `define MINA_MAXA(val,min,max,a) (`MINA(`MAXA(val,min,a),max,a))
 
 // Definition used in ADMS
 `ifdef insideADMS
-	`define MODEL @(initial_model)
-	`define INSTANCE @(initial_instance)
-	`define ATTR(txt) (*txt*)
+    `define MODEL @(initial_model)
+    `define INSTANCE @(initial_instance)
+    `define ATTR(txt) (*txt*)
 `else
-	`define MODEL
-	`define INSTANCE
-	`define ATTR(txt)
+    `define MODEL
+    `define INSTANCE
+    `define ATTR(txt)
 `endif
 
-	`ifdef insideADMS 
-	`define OPPATTR(n,d,u)	(* spice:name=n, info=d , unit=u , ask="yes" *)
-	`else 
-	`define OPPATTR(n,d,u)	(* desc=d , units=u  *)
-	`endif
+    `ifdef insideADMS
+    `define OPPATTR(n,d,u)  (* spice:name=n, info=d , unit=u , ask="yes" *)
+    `else
+    `define OPPATTR(n,d,u)  (* desc=d , units=u  *)
+    `endif
 `define abs_ddx(a,b)  abs(ddx(a,b))
 
 `define DEFINITIONS_INCLUDE

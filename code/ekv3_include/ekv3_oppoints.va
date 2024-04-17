@@ -35,7 +35,7 @@ IB = SIGN*M*( - IDBJ - ISBJ - IGB - IDB   - IGIDL - IGISL  ) ;
 
 
 ///////////Transconductances//////////////
-tmp = (IDS+IDS_edge); 
+tmp = (IDS+IDS_edge);
 gmsi =  abs(SIGN_M * d_gt_s_flag * ddx( tmp,V(`SEFF)));
 gmgi =  abs(SIGN_M * d_gt_s_flag * ddx( tmp,V(`GEFF)));
 gmdi =  abs(SIGN_M * d_gt_s_flag * ddx( tmp,V(`DEFF)));
@@ -55,15 +55,15 @@ gmbt = gmbi + M * ( `abs_ddx(tmp,V(`BEFF)) );
 
 `ifdef DC_S
 gmsex =  gmst ;
-gmgex =  gmgt ;  
-gmdex =  gmdt ;  
+gmgex =  gmgt ;
+gmdex =  gmdt ;
 gmbex =  gmbt ;
 `else
 gmsex =  gmst /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M));
-gmgex =  gmgt /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M));  
-gmdex =  gmdt /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M));  
-gmbex =  gmbt /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M)); 
-`endif 
+gmgex =  gmgt /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M));
+gmdex =  gmdt /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M));
+gmbex =  gmbt /  (1.0 + (gmdt*rd_wt/M) + (gmst*rs_wt/M));
+`endif
 
 
 ///////////slope factor calculation////////
@@ -79,21 +79,21 @@ Cgsi  = M *( abs(ddx(tmp,V(`SEFF))) );
 Cgdi  = M *( abs(ddx(tmp,V(`DEFF))) );
 Cgbi  = M *( abs(ddx(tmp,V(`BEFF))) );
 
-tmp = QS + QS_edge; 
+tmp = QS + QS_edge;
 
 Csgi  = M *( abs(ddx(tmp,V(`GEFF)))  );
 Cssi  = M *( abs(ddx(tmp,V(`SEFF)))  );
 Csdi  = M *( abs(ddx(tmp,V(`DEFF)))  );
 Csbi  = M *( abs(ddx(tmp,V(`BEFF)))  );
 
-tmp = QD + QD_edge; 
+tmp = QD + QD_edge;
 
 Cdgi  = M *( abs(ddx(tmp,V(`GEFF))) );
 Cdsi  = M *( abs(ddx(tmp,V(`SEFF))) );
 Cddi  = M *( abs(ddx(tmp,V(`DEFF))) );
 Cdbi  = M *( abs(ddx(tmp,V(`BEFF))) );
 
-tmp = QB + QB_edge; 
+tmp = QB + QB_edge;
 
 Cbgi  = M *( abs(ddx(tmp,V(`GEFF))) );
 Cbsi  = M *( abs(ddx(tmp,V(`SEFF))) );
@@ -122,7 +122,7 @@ GmgUtId = UT * abs(gmgex / ID);
 GmsUtId = UT * abs(gmsex / ID);
 GmbUtId = UT * abs(gmbex / ID);
 GmdUtId = UT * abs(gmdex / ID);
-GmId	=abs( gmgex / ID );
+GmId    =abs( gmgex / ID );
 end
 else begin
 GmgUtId = 0.0;
@@ -140,11 +140,11 @@ end
 //siId = sqrt(tmp + tmp2);
 
 //siVg = (GmId == 0.0 )?
-//		0.0:
-//		siId/GmId; 
+//      0.0:
+//      siId/GmId;
 
 SID_flicker = flicker/M;
-SID_thermal = thermal*M; 
+SID_thermal = thermal*M;
 
 
 
@@ -161,13 +161,13 @@ SVG_thermal = (gmgex != 0)? SID_thermal /  (gmgex*gmgex) : 0;
 tmp = i0 /(  nq * UT * COX );
 tau0 = pow(Leff - deltal,2.0) / (tmp);
 
-tmp 		= xf + xrp;
-tmp1 		= xf * xrp;
-tmp3 		= tmp * tmp * tmp;
+tmp         = xf + xrp;
+tmp1        = xf * xrp;
+tmp3        = tmp * tmp * tmp;
 tau = tau0 *( 4.0/15.0 ) * (xf2 + 3.0*tmp1 +xrp2) / tmp3;
 
 
-	
+
 
 
 
