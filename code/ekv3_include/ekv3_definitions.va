@@ -51,6 +51,11 @@
 // Nested maximum in minimum function (smoothened)
 `define MINA_MAXA(val,min,max,a) (`MINA(`MAXA(val,min,a),max,a))
 
+// Used for limiting exponent by analog function lexp
+`define EXPL_THRESHOLD 80.0
+`define MAX_EXPL 5.540622384e+34
+`define MIN_EXPL 1.804851387e-35
+
 // Definition used in ADMS
 `ifdef insideADMS
     `define MODEL @(initial_model)

@@ -107,6 +107,21 @@
         module ekv3     (d,g,s,b);
 `endif
 
+////////// Clamped Exponential Function //////////
+analog function real lexp;
+    input x;
+    real x;
+    begin
+        if (x > `EXPL_THRESHOLD) begin
+            lexp = `MAX_EXPL * (1.0+(x)-`EXPL_THRESHOLD);
+        end else if (x < -`EXPL_THRESHOLD) begin
+            lexp = `MIN_EXPL;
+        end else begin
+            lexp = exp(x);
+        end
+    end
+endfunction
+
 inout       d,g,s,b ;
 `ifdef DC_S
     electrical  d, g, s, b;
@@ -224,7 +239,7 @@ begin : EFFECTIVE_GATE_LENGTH_AND_WIDTH___SCALING
 // EFFECTIVE CHANNEL DIMENSIONS
     Leff        = (LL == 0.0) ?
               l + DL + WDL / w:
-              l + DL + WDL / w - LL * limexp(LLN * ln(1.0 / l));
+              l + DL + WDL / w - LL * lexp(LLN * ln(1.0 / l));
     Weff        = w + DW + LDW / l; // NOTE: Weff is the effective width of each finger.
     Leffc       = Leff + DLC;
     Weffc       = Weff + DWC; // NOTE: Weffc is the effective width, for capacitive aspects, of each finger.
@@ -301,7 +316,7 @@ end //  COMBINED_SHORT_AND_NARROW_DEVICES
 begin : RSCE
 // REVERSE SHORT CHANNEL EFFECT
     Leff_o_LR   = Leff / LR_w;
-    tmp_rsce    = 1.0 - limexp( - Leff_o_LR * Leff_o_LR);
+    tmp_rsce    = 1.0 - lexp( - Leff_o_LR * Leff_o_LR);
     f_rsce      = 2.0 * tmp_rsce / (COX * Leff_o_LR);
     DVT_rsce    = QLR_w * f_rsce;
     fn_rsce     = 1.0 + NLR_w * f_rsce;
@@ -313,7 +328,7 @@ begin : INWE
 // INVERSE NARROW WIDTH EFFECT
 // Weff_o_WR    = Weff / WR; = > Weff_o_WR  = Weff / WR_l;
     Weff_o_WR   = Weff / WR_l;
-    tmp_inwe    = 1.0 - limexp( - Weff_o_WR * Weff_o_WR);
+    tmp_inwe    = 1.0 - lexp( - Weff_o_WR * Weff_o_WR);
 // bACK TO ORIGINAL f_inwe = - 2.0 * tmp_inwe / (COX * Weff_o_WR) => 2.0 * tmp_inwe / (COX * Weff_o_WR)
     f_inwe      =  2.0 * tmp_inwe / (COX * Weff_o_WR);
     DVT_inwe    = - QWR_l * f_inwe;
@@ -327,13 +342,13 @@ begin : MOBILITY_LENGTH_SCALING
 // LENGTH SCALING OF THE MOBILITY FOR SHORT AND INTERMEDIATE LENGTH CHANNEL DEVICES
     Leff_o_LA   = Leff / LA;
     Leff_o_LB   = Leff / LB;
-    MKP_l       = 1.0 / (1.0 + (KA / Leff_o_LA) * (1.0 - limexp( - Leff_o_LA)) + (KB / Leff_o_LB) * (1.0 - limexp( - Leff_o_LB)));
+    MKP_l       = 1.0 / (1.0 + (KA / Leff_o_LA) * (1.0 - lexp( - Leff_o_LA)) + (KB / Leff_o_LB) * (1.0 - lexp( - Leff_o_LB)));
 end //  MOBILITY_LENGTH_SCALING
 
 begin : MOBILITY_WIDTH_SCALING
 // WIDTH SCALING OF THE MOBILITY AROUND THE VALUE OF WKP1 PARAMETER
     tmp_kpw     = (ln(Weff / WKP1)) / WKP3;
-    MKP_w       = 1.0 + WKP2 * limexp( - tmp_kpw * tmp_kpw);
+    MKP_w       = 1.0 + WKP2 * lexp( - tmp_kpw * tmp_kpw);
 end //  MOBILITY_WIDTH_SCALING
 
 begin : STI_STRESS
@@ -359,7 +374,7 @@ begin : STI_STRESS
 //                      for loop replaced with while
 //          for (i_sti = 1.0; i_sti < NF; i_sti = i_sti + 1.0)
                         i_sti = 1.0;
-                        while(i_sti < NF)
+                        while (i_sti < NF)
             begin
                 inv_sa05l   = inv_sa05l + 1.0 / (SA_lhalf_sti + i_sti * SD_l_sti);
                 inv_sb05l   = inv_sb05l + 1.0 / (SB_lhalf_sti + i_sti * SD_l_sti);
@@ -378,20 +393,20 @@ begin : STI_STRESS
         inv_saref05l    = 1.0 / (SAREF + lhalf_sti);
         inv_sbref05l    = 1.0 / (SBREF + lhalf_sti);
 
-        tmpl        = limexp(-LLODKKP*ln(l));
-        tmpw        = limexp(-WLODKKP*ln(w+WLOD));
+        tmpl        = lexp(-LLODKKP*ln(l));
+        tmpw        = lexp(-WLODKKP*ln(w+WLOD));
         KKP_sti     = (1.0 + LKKP * tmpl + WKKP * tmpw + PKKP * tmpl * tmpw);
         a_sti       = KKP / KKP_sti * (inv_sa05l    + inv_sb05l);
         aref_sti    = KKP / KKP_sti * (inv_saref05l + inv_sbref05l);
         MKP_sti     = (1.0 + a_sti) / (1.0 + aref_sti);
         MUCRIT_sti      = (1.0 + KUCRIT * a_sti) / (1.0 + KUCRIT * aref_sti);
-        tmpl        = limexp(-LLODKVTO*ln(l));
-        tmpw        = limexp(-WLODKVTO*ln(w+WLOD));
+        tmpl        = lexp(-LLODKVTO*ln(l));
+        tmpw        = lexp(-WLODKVTO*ln(w+WLOD));
         KVTO_sti    = 1.0 + LKVTO * tmpl + WKVTO * tmpw + PKVTO * tmpl * tmpw;
         b_sti       = inv_sa05l + inv_sb05l - inv_saref05l - inv_sbref05l;
         DVT_sti     = KVTO / KVTO_sti * b_sti;
-        DGAMMA_sti  = KGAMMA / limexp(LODKGAMMA*ln(KVTO_sti)) * b_sti;
-        DETAD_sti   = KETAD / limexp(LODKETAD*ln(KVTO_sti)) * b_sti;
+        DGAMMA_sti  = KGAMMA / lexp(LODKGAMMA*ln(KVTO_sti)) * b_sti;
+        DETAD_sti   = KETAD / lexp(LODKETAD*ln(KVTO_sti)) * b_sti;
     end
     else // NOTE: If no basic STI parameters have been defined (are zero)
     begin
@@ -463,11 +478,11 @@ end //  TEMPERATURE_ON_STI
 begin : TEMPERATURE
 // MODEL PARAMETERS AFFECTED BY TEMPERATURE
     VTO_DEV_t   = VTO_DEV - TCV_wlc * dT; // NOTE: VTO_DEV_t is negative for PMOS devices.
-    KP_DEV_t    = KP_DEV * limexp(BEX * lnrT) * MKP_sti_t;
+    KP_DEV_t    = KP_DEV * lexp(BEX * lnrT) * MKP_sti_t;
     ETA_t       = ETA + (TETA * dT);
-    E0_wt       = E0_w * limexp(TE0EX * lnrT);
-    E1_wt       = E1_w * limexp(TE1EX * lnrT);
-    UCRIT_DEV_t     = UCRIT_DEV * limexp(UCEX_w * lnrT);
+    E0_wt       = E0_w * lexp(TE0EX * lnrT);
+    E1_wt       = E1_w * lexp(TE1EX * lnrT);
+    UCRIT_DEV_t     = UCRIT_DEV * lexp(UCEX_w * lnrT);
     LAMBDA_wt   = LAMBDA_w + TLAMBDA * (rT - 1.0);
     IBB_t       = IBB * (1.0 + IBBT * dT);
 // PHIF
@@ -530,12 +545,12 @@ end //  NORMALIZING
 
 begin : QUANTUM_MECHANICAL_EFFECT
 // BIAS INDEPENDENT CALCULATIONS FOR THE ACCUMULATION REGION
-    aqma        = AQMA * limexp(`ONE3RD * ln(COX * COX / UT));
-    axetaqm2_3  = aqma * limexp(`TWO3RDS * ln(ETAQM));
+    aqma        = AQMA * lexp(`ONE3RD * ln(COX * COX / UT));
+    axetaqm2_3  = aqma * lexp(`TWO3RDS * ln(ETAQM));
 // QUANTUM MECHANICAL EFFECT ON SURFACE POTENTIAL SHIFT
-    dqmi        = `ONE3RD * AQMI * limexp(`TWO3RDS * ln(gamma_b_dev * COX * 0.5 / (sqrtUT * phif))) * (2.0 * `SQRT2 * ETAQM * nq0 * sqrtphif / gamma_b_dev - 1.0);
+    dqmi        = `ONE3RD * AQMI * lexp(`TWO3RDS * ln(gamma_b_dev * COX * 0.5 / (sqrtUT * phif))) * (2.0 * `SQRT2 * ETAQM * nq0 * sqrtphif / gamma_b_dev - 1.0);
     inv_dqmip1  = 1.0 / ( 1.0 + dqmi);
-    dpsi0       = AQMI * limexp(`TWO3RDS * ln(gamma_b_dev * COX * `SQRT2 * sqrtphif));
+    dpsi0       = AQMI * lexp(`TWO3RDS * ln(gamma_b_dev * COX * `SQRT2 * sqrtphif));
     DPSI0       = dpsi0 * UT; // NOTE: Denormalized value of the surface potential shift.
 end //  QUANTUM_MECHANICAL_EFFECT
 
@@ -805,7 +820,7 @@ begin : CHARGE_MODEL
     qr1         = 3.0 * `ONESQRT2 * gamma_b_chsh;
     if (vg_p < 0.0) qbo = vg_p_chsh    - psi_p;
     else        qbo = vg_p_chsh / (1.0 + dpd) - psi_po;
-    dpsiv       = axetaqm2_3 * (limexp(`TWO3RDS * ln(sqrt(`MAXA(0.25 * qbo * qbo + 4.0 * axetaqm2_3 * gamma_b_chsh2,0.0,`POS_MIN)) - 0.5 * qbo)) - limexp(`TWO3RDS * ln(sqrt(`MAXA(qr1 * qr1 + 4.0 * axetaqm2_3 * gamma_b_chsh2,0.0,`POS_MIN)) - qr1)));
+    dpsiv       = axetaqm2_3 * (lexp(`TWO3RDS * ln(sqrt(`MAXA(0.25 * qbo * qbo + 4.0 * axetaqm2_3 * gamma_b_chsh2,0.0,`POS_MIN)) - 0.5 * qbo)) - lexp(`TWO3RDS * ln(sqrt(`MAXA(qr1 * qr1 + 4.0 * axetaqm2_3 * gamma_b_chsh2,0.0,`POS_MIN)) - qr1)));
     v_o_qme     = v_o + dpsiv;
 // CALCULATIONS OF THE NORMALIZED CHARGES qS, qD, qG
     begin
@@ -853,7 +868,7 @@ begin : DITS
     else // NOTE: Otherwise, the following coding calculates a DITS factor (dits_factor) which is multiplied with the channel current (IDS).
     begin
         f_dits      = 1.0 / (1.0 + FPROUT * sqrt(Leff) / (qI + 2.0));
-        va_dits     = (f_dits / PDITS) * (1.0 + (1.0 + PDITSL * Leff) * limexp(PDITSD * (vd - vs) * UT));
+        va_dits     = (f_dits / PDITS) * (1.0 + (1.0 + PDITSL * Leff) * lexp(PDITSD * (vd - vs) * UT));
         vdseff      = vdssat - `MAXA(vdssat - (vd - vs) - DDITS, 0.0, 4.0 * DDITS * vdssat);
         dits_factor     = (1.0 + (vd - vs - vdseff) / va_dits );
     end
