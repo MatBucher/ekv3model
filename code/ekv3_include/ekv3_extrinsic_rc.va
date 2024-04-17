@@ -113,9 +113,9 @@ end // EXTERNAL_RESISTORS
     I(g,b)      <+ ddt(CGBO * M * 2.0 * Leff * NF * V(g,b));
 // SERIES RESISTORS
     I(s ,si)    <+ M * V(s,si) / rs_wt;
-    I(s ,si)    <+ white_noise(KT4 / rs_wt);
+    I(s ,si)    <+ white_noise(KT4 / rs_wt, "rs");
     I(d ,di)    <+ M * V(d,di) / rd_wt;
-    I(d ,di)    <+ white_noise(KT4 / rd_wt);
+    I(d ,di)    <+ white_noise(KT4 / rd_wt, "rd");
 `endif
 
 `ifdef RF_S
@@ -126,15 +126,15 @@ end // EXTERNAL_RESISTORS
     I(gi,bi)    <+ ddt(CGBO * M * 2.0 * Leff * NF * V(gi,bi));
 // SERIES RESISTORS
     I(s ,si)    <+ M * V(s,si) / rs_wt;
-    I(s ,si)    <+ white_noise(KT4 / rs_wt);
+    I(s ,si)    <+ white_noise(KT4 / rs_wt, "rs");
     I(d ,di)    <+ M * V(d,di) / rd_wt;
-    I(d ,di)    <+ white_noise(KT4 / rd_wt);
+    I(d ,di)    <+ white_noise(KT4 / rd_wt, "rd");
 // GATE RESISTANCE
     I(g ,gi)    <+ M * V(g,gi) / rg_t;
-    I(g ,gi)    <+ white_noise(KT4 / rg_t);
+    I(g ,gi)    <+ white_noise(KT4 / rg_t, "rg");
 // SUBSTRATE RESISTANCE NETWORK
     I(b ,bi)    <+ M * V(b,bi) / rb_t;
-    I(b ,bi)    <+ white_noise(KT4 / rb_t);
+    I(b ,bi)    <+ white_noise(KT4 / rb_t, "rb");
 `endif
 
 `ifdef RF
@@ -145,24 +145,24 @@ end // EXTERNAL_RESISTORS
     I(gi,bi)    <+ ddt(CGBO * M * 2.0 * Leff * NF * V(gi,bi));
 // SERIES RESISTORS
     I(s ,si)    <+ M * V(s,si) / rs_wt;
-    I(s ,si)    <+ white_noise(KT4 / rs_wt);
+    I(s ,si)    <+ white_noise(KT4 / rs_wt, "rs");
     I(d ,di)    <+ M * V(d,di) / rd_wt;
-    I(d ,di)    <+ white_noise(KT4 / rd_wt);
+    I(d ,di)    <+ white_noise(KT4 / rd_wt, "rd");
 // GATE RESISTANCE
     I(g ,gi )   <+ M * V(g ,gi ) / rg_t;
-    I(g ,gi )   <+ white_noise(KT4 / rg_t);
+    I(g ,gi )   <+ white_noise(KT4 / rg_t, "rg");
 // SUBSTRATE RESISTANCE NETWORK
     I(b ,bi )   <+ M * V(b ,bi ) / rb_t;
-    I(b ,bi )   <+ white_noise(KT4 / rb_t);
+    I(b ,bi )   <+ white_noise(KT4 / rb_t, "rb");
     I(b ,bsi)   <+ M * V(b ,bsi) / rsb_t;
-    I(b ,bsi)   <+ white_noise(KT4 / rsb_t);
+    I(b ,bsi)   <+ white_noise(KT4 / rsb_t, "rsb");
     I(b ,bdi)   <+ M * V(b ,bdi) / rdb_t;
-    I(b ,bdi)   <+ white_noise(KT4 / rdb_t);
+    I(b ,bdi)   <+ white_noise(KT4 / rdb_t, "rdb");
     tmp         = M * 2.0 / rdsb_t;
     I(bi,bsi)   <+ V(bi,bsi) * tmp;
-    I(bi,bsi)   <+ white_noise(KT4 * tmp);
+    I(bi,bsi)   <+ white_noise(KT4 * tmp, "shot ibs");
     I(bi,bdi)   <+ V(bi,bdi) * tmp;
-    I(bi,bdi)   <+ white_noise(KT4 * tmp);
+    I(bi,bdi)   <+ white_noise(KT4 * tmp, "shot ibd");
 `endif
 
 `ifdef NQS
@@ -173,22 +173,22 @@ end // EXTERNAL_RESISTORS
     I(gi,bi)    <+ ddt(CGBO * M * 2.0 * Leff * NF * V(gi,bi));
 // SERIES RESISTORS
     I(s ,si)    <+ M * V(s,si) / rs_wt;
-    I(s ,si)    <+ white_noise(KT4 / rs_wt);
+    I(s ,si)    <+ white_noise(KT4 / rs_wt, "rs");
     I(d ,di)    <+ M * V(d,di) / rd_wt;
-    I(d ,di)    <+ white_noise(KT4 / rd_wt);
+    I(d ,di)    <+ white_noise(KT4 / rd_wt, "rd");
 // GATE RESISTANCE
     I(g ,gi )   <+ M * V(g ,gi ) / rg_t;
-    I(g ,gi )   <+ white_noise(KT4 / rg_t);
+    I(g ,gi )   <+ white_noise(KT4 / rg_t, "rg");
 // SUBSTRATE RESISTANCE NETWORK
     I(b ,bi )   <+ M * V(b ,bi ) / rb_t;
-    I(b ,bi )   <+ white_noise(KT4 / rb_t);
+    I(b ,bi )   <+ white_noise(KT4 / rb_t, "rb");
     I(b ,bsi)   <+ M * V(b ,bsi) / rsb_t;
-    I(b ,bsi)   <+ white_noise(KT4 / rsb_t);
+    I(b ,bsi)   <+ white_noise(KT4 / rsb_t, "rsb");
     I(b ,bdi)   <+ M * V(b ,bdi) / rdb_t;
-    I(b ,bdi)   <+ white_noise(KT4 / rdb_t);
+    I(b ,bdi)   <+ white_noise(KT4 / rdb_t, "rdb");
     tmp         = M * 2.0 / rdsb_t;
     I(bi,bsi)   <+ V(bi,bsi) * tmp;
-    I(bi,bsi)   <+ white_noise(KT4 * tmp);
+    I(bi,bsi)   <+ white_noise(KT4 * tmp, "shot ibs");
     I(bi,bdi)   <+ V(bi,bdi) * tmp;
-    I(bi,bdi)   <+ white_noise(KT4 * tmp);
+    I(bi,bdi)   <+ white_noise(KT4 * tmp, "shot ibd");
 `endif
