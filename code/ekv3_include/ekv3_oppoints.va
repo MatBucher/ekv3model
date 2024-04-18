@@ -117,12 +117,12 @@ VM = ID/ gmdex;
 ///Transit Fr4equency /////////////////
 Ft = gmgex / (2.0*`PI*Ctotex);
 
-if (ID !=0.0)  begin
+if (ID !=0.0) begin
 GmgUtId = UT * abs(gmgex / ID);
 GmsUtId = UT * abs(gmsex / ID);
 GmbUtId = UT * abs(gmbex / ID);
 GmdUtId = UT * abs(gmdex / ID);
-GmId    =abs( gmgex / ID );
+GmId = abs( gmgex / ID );
 end
 else begin
 GmgUtId = 0.0;
