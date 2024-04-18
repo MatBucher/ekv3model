@@ -9,7 +9,6 @@
 
 ///// POTENTIAL INFO ///////////////////////
 
-`OPPATTR("VB","VB","V") real     VB;
 `OPPATTR("VDS","VDS","V") real  VDS;
 `OPPATTR("VGS","VGS","V") real  VGS;
 `OPPATTR("VBS","VBS","V") real  VBS;
@@ -34,9 +33,6 @@
 `OPPATTR("VTB","Effective Threshold Voltage VTB","V") real Vtb;
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
-`OPPATTR("WeffNF","Effective Total Width","m") real WeffNF;
-`OPPATTR("Weff","Effective finger Width","m") real Weff;
-`OPPATTR("Leff","Effective Length","m") real Leff;
 `OPPATTR("Nf","Number of fingers","") real Nf;
 //////CURRENT - CHARGE  INFO ////////////////////
 //`OPPATTR("if","Forward Normalized Current","") real      if_;
