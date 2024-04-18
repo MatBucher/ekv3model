@@ -9,9 +9,6 @@
 
 ///// POTENTIAL INFO ///////////////////////
 
-`OPPATTR("VS","VS","V") real     VS;
-`OPPATTR("VD","VD","V") real     VD;
-`OPPATTR("VG","VG","V") real     VG;
 `OPPATTR("VB","VB","V") real     VB;
 `OPPATTR("VDS","VDS","V") real  VDS;
 `OPPATTR("VGS","VGS","V") real  VGS;
