@@ -57,6 +57,7 @@ begin
 end
 else
 begin
+sddm = 0;
 kddm = 0;
 end
     sidm        =  sddm * kddm *IDS*IDS ;
