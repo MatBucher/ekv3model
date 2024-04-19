@@ -1,102 +1,102 @@
 // EXTERNAL: DIODES
 
 begin : DIODES
-begin : TEMPERATURE_DIODES
-// CALCULATION OF JUNCTION DIODES PARAMETERS, FOR BOTH (SOURCE AND DRAIN) SIDES AS THEY ARE AFFECTED BY TEMPERATURE
-// CURRENT PARAMETERS
-    tmp         = eg_tnom / UTNOM - eg_t / UT; // NOTE: Used in temp_arg_S and temp_arg_D variables
-    temp_arg_S  = exp((tmp + XTIS * lnrT) / NJS); // NOTE: Used in jss_t, jssws_t and jsswgs_t variables
-    temp_arg_D  = exp((tmp + XTID * lnrT) / NJD); // NOTE: Used in jsd_t, jsswd_t and jsswgd_t variables
-    jss_t       = JSS * temp_arg_S;
-    jssws_t     = JSSWS * temp_arg_S;
-    jsswgs_t    = JSSWGS * temp_arg_S;
-    jsd_t       = JSD * temp_arg_D;
-    jsswd_t     = JSSWD * temp_arg_D;
-    jsswgd_t    = JSSWGD * temp_arg_D;
-// CAPACITANCE PARAMETERS
-    cjs_t       = CJS * (1.0 + TCJ * dT);
-    cjsws_t     = CJSWS * (1.0 + TCJSW * dT);
-    cjswgs_t    = CJSWGS * (1.0 + TCJSWG * dT);
-    cjd_t       = CJD * (1.0 + TCJ * dT);
-    cjswd_t     = CJSWD * (1.0 + TCJSW * dT);
-    cjswgd_t    = CJSWGD * (1.0 + TCJSWG * dT);
-// CAPACITANCE VOLTAGE PARAMETERS
-    pbs_t       = PBS - (TPB * dT);
-    pbsws_t     = PBSWS - (TPBSW * dT);
-    pbswgs_t    = PBSWGS - (TPBSWG * dT);
-    pbd_t       = PBD - (TPB * dT);
-    pbswd_t     = PBSWD - (TPBSW * dT);
-    pbswgd_t    = PBSWGD - (TPBSWG * dT);
-// TRAP-ASSISTED CURERNT PARAMETERS
-    tmp         = - eg_tnom / UT * (1.0 - rT); // NOTE: Used in jtss_t, jtssws_t, jtsswgs_t, jtsd_t, jtsswd_t and jtsswgd_t variables
-    jtss_t      = JTSS * exp(tmp * XTSS);
-    jtssws_t    = JTSSWS * exp(tmp * XTSSWS);
-    jtsswgs_t   = JTSSWGS * exp(tmp * XTSSWGS);
-    jtsd_t      = JTSD * exp(tmp * XTSD);
-    jtsswd_t    = JTSSWD * exp(tmp * XTSSWD);
-    jtsswgd_t   = JTSSWGD * exp(tmp * XTSSWGD);
-// SLOPE PARAMETER FOR TRAP-ASSISTED CURRENT
-    tmp         = rT - 1.0; // NOTE: Used in njtss_t, njtssws_t, njtsswgs_t, njtsd_t, njtsswd_t and njtsswgd_t variables
-    njtss_t     = NJTSS * (1.0 + tmp * TNJTSS);
-    njtssws_t   = NJTSSWS * (1.0 + tmp * TNJTSSWS);
-    njtsswgs_t  = NJTSSWGS * (1.0 + tmp * TNJTSSWGS);
-    njtsd_t     = NJTSD * (1.0 + tmp * TNJTSD);
-    njtsswd_t   = NJTSSWD * (1.0 + tmp * TNJTSSWD);
-    njtsswgd_t  = NJTSSWGD * (1.0 + tmp * TNJTSSWGD);
-end //  TEMPERATURE_DIODES
+    begin : TEMPERATURE_DIODES
+        // CALCULATION OF JUNCTION DIODES PARAMETERS, FOR BOTH (SOURCE AND DRAIN) SIDES AS THEY ARE AFFECTED BY TEMPERATURE
+        // CURRENT PARAMETERS
+        tmp         = eg_tnom / UTNOM - eg_t / UT; // NOTE: Used in temp_arg_S and temp_arg_D variables
+        temp_arg_S  = exp((tmp + XTIS * lnrT) / NJS); // NOTE: Used in jss_t, jssws_t and jsswgs_t variables
+        temp_arg_D  = exp((tmp + XTID * lnrT) / NJD); // NOTE: Used in jsd_t, jsswd_t and jsswgd_t variables
+        jss_t       = JSS * temp_arg_S;
+        jssws_t     = JSSWS * temp_arg_S;
+        jsswgs_t    = JSSWGS * temp_arg_S;
+        jsd_t       = JSD * temp_arg_D;
+        jsswd_t     = JSSWD * temp_arg_D;
+        jsswgd_t    = JSSWGD * temp_arg_D;
+        // CAPACITANCE PARAMETERS
+        cjs_t       = CJS * (1.0 + TCJ * dT);
+        cjsws_t     = CJSWS * (1.0 + TCJSW * dT);
+        cjswgs_t    = CJSWGS * (1.0 + TCJSWG * dT);
+        cjd_t       = CJD * (1.0 + TCJ * dT);
+        cjswd_t     = CJSWD * (1.0 + TCJSW * dT);
+        cjswgd_t    = CJSWGD * (1.0 + TCJSWG * dT);
+        // CAPACITANCE VOLTAGE PARAMETERS
+        pbs_t       = PBS - (TPB * dT);
+        pbsws_t     = PBSWS - (TPBSW * dT);
+        pbswgs_t    = PBSWGS - (TPBSWG * dT);
+        pbd_t       = PBD - (TPB * dT);
+        pbswd_t     = PBSWD - (TPBSW * dT);
+        pbswgd_t    = PBSWGD - (TPBSWG * dT);
+        // TRAP-ASSISTED CURERNT PARAMETERS
+        tmp         = - eg_tnom / UT * (1.0 - rT); // NOTE: Used in jtss_t, jtssws_t, jtsswgs_t, jtsd_t, jtsswd_t and jtsswgd_t variables
+        jtss_t      = JTSS * exp(tmp * XTSS);
+        jtssws_t    = JTSSWS * exp(tmp * XTSSWS);
+        jtsswgs_t   = JTSSWGS * exp(tmp * XTSSWGS);
+        jtsd_t      = JTSD * exp(tmp * XTSD);
+        jtsswd_t    = JTSSWD * exp(tmp * XTSSWD);
+        jtsswgd_t   = JTSSWGD * exp(tmp * XTSSWGD);
+        // SLOPE PARAMETER FOR TRAP-ASSISTED CURRENT
+        tmp         = rT - 1.0; // NOTE: Used in njtss_t, njtssws_t, njtsswgs_t, njtsd_t, njtsswd_t and njtsswgd_t variables
+        njtss_t     = NJTSS * (1.0 + tmp * TNJTSS);
+        njtssws_t   = NJTSSWS * (1.0 + tmp * TNJTSSWS);
+        njtsswgs_t  = NJTSSWGS * (1.0 + tmp * TNJTSSWGS);
+        njtsd_t     = NJTSD * (1.0 + tmp * TNJTSD);
+        njtsswd_t   = NJTSSWD * (1.0 + tmp * TNJTSSWD);
+        njtsswgd_t  = NJTSSWGD * (1.0 + tmp * TNJTSSWGD);
+    end //  TEMPERATURE_DIODES
 
-begin : SCALING_GEOMETRY_JUNCTION_DIODES
-// CALCULATIONS OF GEOMETRIC CHARACTERISTICS OF THE JUNCTION DIODES
-// AREA AND SIDEWAYS PERIMETER OF BOTH (SOURCE AND DRAIN) SIDES JUNCTIONS ARE CALCULATED
-// GATESIDE PERIMETER IS ALREADY CALCULATED AND IS EQUAL TO "WeffNF"
-// AS, PS, AD AND PD PARAMETERS OVERRIDE HDIF PARAMETER
-    if ((AS == 0.0) && (HDIF > 0.0))
-    begin
-//      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
-    if (even_nf == NF)
-            as = hdif * Weff * (NF + 2); // NOTE: hdif and Weff are already scaled with SCALE parameter
-        else         // ODD NUMBER OF FINGERS
-            as = hdif * Weff * (NF + 1); // NOTE: hdif and Weff are already scaled with SCALE parameter
-    end
-    else
-        as = AS * SCALE * SCALE;
+    begin : SCALING_GEOMETRY_JUNCTION_DIODES
+        // CALCULATIONS OF GEOMETRIC CHARACTERISTICS OF THE JUNCTION DIODES
+        // AREA AND SIDEWAYS PERIMETER OF BOTH (SOURCE AND DRAIN) SIDES JUNCTIONS ARE CALCULATED
+        // GATESIDE PERIMETER IS ALREADY CALCULATED AND IS EQUAL TO "WeffNF"
+        // AS, PS, AD AND PD PARAMETERS OVERRIDE HDIF PARAMETER
+        if ((AS == 0.0) && (HDIF > 0.0))
+        begin
+            //      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
+            if (even_nf == NF)
+                as = hdif * Weff * (NF + 2); // NOTE: hdif and Weff are already scaled with SCALE parameter
+            else         // ODD NUMBER OF FINGERS
+                as = hdif * Weff * (NF + 1); // NOTE: hdif and Weff are already scaled with SCALE parameter
+        end
+        else
+            as = AS * SCALE * SCALE;
 
-    if ((PS == 0.0) && (HDIF > 0.0))
-    begin
-//      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
-       if (even_nf == NF)
-            ps = 2.0 * (hdif * (NF + 2) + Weff); // NOTE: hdif and Weff are already scaled with SCALE parameter
-        else         // ODD NUMBER OF FINGERS
-            ps = 2.0 * hdif * (NF + 1) + Weff; // NOTE: hdif and Weff are already scaled with SCALE parameter
-    end
-    else
-        ps = PS * SCALE;
+        if ((PS == 0.0) && (HDIF > 0.0))
+        begin
+            //      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
+            if (even_nf == NF)
+                ps = 2.0 * (hdif * (NF + 2) + Weff); // NOTE: hdif and Weff are already scaled with SCALE parameter
+            else         // ODD NUMBER OF FINGERS
+                ps = 2.0 * hdif * (NF + 1) + Weff; // NOTE: hdif and Weff are already scaled with SCALE parameter
+        end
+        else
+            ps = PS * SCALE;
 
-    if ((AD == 0.0) && (HDIF > 0.0))
-    begin
-//      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
-                if (even_nf == NF)
-            ad = hdif * Weff * (NF    ); // NOTE: hdif and Weff are already scaled with SCALE parameter
-        else         // ODD NUMBER OF FINGERS
-            ad = hdif * Weff * (NF + 1); // NOTE: hdif and Weff are already scaled with SCALE parameter
-    end
-    else
-        ad = AD * SCALE * SCALE;
+        if ((AD == 0.0) && (HDIF > 0.0))
+        begin
+            //      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
+            if (even_nf == NF)
+                ad = hdif * Weff * (NF    ); // NOTE: hdif and Weff are already scaled with SCALE parameter
+            else         // ODD NUMBER OF FINGERS
+                ad = hdif * Weff * (NF + 1); // NOTE: hdif and Weff are already scaled with SCALE parameter
+        end
+        else
+            ad = AD * SCALE * SCALE;
 
-    if ((PD == 0.0) && (HDIF > 0.0))
-    begin
-//      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
-                if (even_nf == NF)
-            pd = 2.0 * hdif * NF; // NOTE: hdif and Weff are already scaled with SCALE parameter
-        else         // ODD NUMBER OF FINGERS
-            pd = 2.0 * hdif * (NF + 1) + Weff; // NOTE: hdif and Weff are already scaled with SCALE parameter
-    end
-    else
-        pd = PD * SCALE;
-end //  SCALING_GEOMETRY_JUNCTION_DIODES
+        if ((PD == 0.0) && (HDIF > 0.0))
+        begin
+            //      if (NF % 2 == 0) // EVEN NUMBER OF FINGERS
+            if (even_nf == NF)
+                pd = 2.0 * hdif * NF; // NOTE: hdif and Weff are already scaled with SCALE parameter
+            else         // ODD NUMBER OF FINGERS
+                pd = 2.0 * hdif * (NF + 1) + Weff; // NOTE: hdif and Weff are already scaled with SCALE parameter
+        end
+        else
+            pd = PD * SCALE;
+    end //  SCALING_GEOMETRY_JUNCTION_DIODES
 
-// READING THE INPUT VOLTAGES FOR THE JUNCTION DIODES
-// THE EXACT NODES DEPEND ON THE MODE USED AND THE INTERNAL NODES CREATED.
+    // READING THE INPUT VOLTAGES FOR THE JUNCTION DIODES
+    // THE EXACT NODES DEPEND ON THE MODE USED AND THE INTERNAL NODES CREATED.
 
 `ifdef DC_S
     v_sbj = SIGN * V(s ,b  );
@@ -119,35 +119,35 @@ end //  SCALING_GEOMETRY_JUNCTION_DIODES
     v_dbj = SIGN * V(di,bdi);
 `endif
 
-// CALCULATION OF THE DIODE-CURRENTS
+    // CALCULATION OF THE DIODE-CURRENTS
 
-// SOURCE-SIDE
+    // SOURCE-SIDE
     is_s        = jss_t * as + jssws_t * ps + jsswgs_t * WeffNF;
     tmp         = rT / (UT * NJS);
     arg_s       = - v_sbj * tmp;
     f_breakdown_s   = 1.0 + XJBVS * exp(-(-v_sbj + BVS) * tmp); // NOTE: Breakdown effect
     isb         = is_s * (1.0 - exp(arg_s)) * f_breakdown_s;
-// SOURCE-SIDE TRAP-ASSISTED CURRENT
+    // SOURCE-SIDE TRAP-ASSISTED CURRENT
     tmp         = v_sbj * rT / UT;
     isb_tun     = as * jtss_t * (exp(tmp / njtss_t * VTSS / max(VTSS + v_sbj,1.0E-3)) - 1.0) + ps * jtssws_t * (exp(tmp / njtssws_t * VTSSWS / max(VTSSWS + v_sbj,1.0E-3)) - 1.0) + WeffNF * jtsswgs_t * (exp(tmp / njtsswgs_t * VTSSWGS / max(VTSSWGS + v_sbj,1.0E-3)) - 1.0);
-// TOTAL SOURCE-SIDE JUNCTION DIODE CURRENT
+    // TOTAL SOURCE-SIDE JUNCTION DIODE CURRENT
     ISBJ        = isb + v_sbj * GMIN + isb_tun;
 
-// DRAIN-SIDE
+    // DRAIN-SIDE
     is_d        = jsd_t * ad + jsswd_t * pd + jsswgd_t * WeffNF;
     tmp         = rT / (UT * NJD);
     arg_d       = - v_dbj * tmp;
     f_breakdown_d   = 1.0 + XJBVD * exp(-(-v_dbj + BVD) * tmp); // NOTE: Breakdown effect
     idb         = is_d * (1.0 - exp(arg_d)) * f_breakdown_d;
-// DRAIN-SIDE TRAP-ASSISTED CURRENT
+    // DRAIN-SIDE TRAP-ASSISTED CURRENT
     tmp         = v_dbj * rT / UT;
     idb_tun     = ad * jtsd_t * (exp(tmp / njtsd_t * VTSD / max(VTSD + v_dbj,1.0E-3)) - 1.0) + pd * jtsswd_t * (exp(tmp / njtsswd_t * VTSSWD / max(VTSSWD + v_dbj,1.0E-3)) - 1.0) + WeffNF * jtsswgd_t * (exp(tmp / njtsswgd_t * VTSSWGD / max(VTSSWGD + v_dbj,1.0E-3)) - 1.0);
-// TOTAL DRAIN-SIDE JUNCTION DIODE CURRENT
+    // TOTAL DRAIN-SIDE JUNCTION DIODE CURRENT
     IDBJ        = idb + v_dbj * GMIN + idb_tun;
 
-// CALCULATION OF THE DIODE-CHARGES (THE CAPACITANCE BEHAVIOUR IS DESCRIBED AS THE DERIVATIVE OF THE CHARGES)
+    // CALCULATION OF THE DIODE-CHARGES (THE CAPACITANCE BEHAVIOUR IS DESCRIBED AS THE DERIVATIVE OF THE CHARGES)
 
-// SOURCE-SIDE CAPACITANCE CHARGES
+    // SOURCE-SIDE CAPACITANCE CHARGES
     if (v_sbj > 0.0)
     begin
         cj_s        = cjs_t    * as     * exp( - MJS    * ln(1.0 + v_sbj / pbs_t   ));
@@ -169,7 +169,7 @@ end //  SCALING_GEOMETRY_JUNCTION_DIODES
     end
     CSBJ        = cj_s + cjsw_s + cjswg_s; // NOTE: CALCULATION OF CSBJ (AS WELL AS OF cj_s, cjsw_s AND cjswg_s) IS NOT NECESSARY SINCE THE DYNAMICAL BEHAVIOUR IS DESCRIBED BY THE TIME DERIVATIVE OF THE CHARGE "QSBJ"
     QSBJ        = - (qj_s + qjsw_s + qjswg_s);
-// DRAIN-SIDE CAPACITANCE CHARGES
+    // DRAIN-SIDE CAPACITANCE CHARGES
     if (v_dbj > 0.0)
     begin
         cj_d        = cjd_t    * ad     * exp( - MJD    * ln(1.0 + v_dbj / pbd_t   ));
@@ -198,45 +198,45 @@ end //  DIODES
 
 `ifdef DC_S
 // DIODES IV
-    I(d ,b )    <+  SIGN_M * IDBJ;
-    I(s ,b )    <+  SIGN_M * ISBJ;
+I(d ,b )    <+  SIGN_M * IDBJ;
+I(s ,b )    <+  SIGN_M * ISBJ;
 // DIODES CV
-    I(d ,b )    <+  SIGN_M * ddt(QDBJ);
-    I(s ,b )    <+  SIGN_M * ddt(QSBJ);
+I(d ,b )    <+  SIGN_M * ddt(QDBJ);
+I(s ,b )    <+  SIGN_M * ddt(QSBJ);
 `endif
 
 `ifdef DC
 // DIODES IV
-    I(di,b )    <+  SIGN_M * IDBJ;
-    I(si,b )    <+  SIGN_M * ISBJ;
+I(di,b )    <+  SIGN_M * IDBJ;
+I(si,b )    <+  SIGN_M * ISBJ;
 // DIODES CV
-    I(di,b )    <+  SIGN_M * ddt(QDBJ);
-    I(si,b )    <+  SIGN_M * ddt(QSBJ);
+I(di,b )    <+  SIGN_M * ddt(QDBJ);
+I(si,b )    <+  SIGN_M * ddt(QSBJ);
 `endif
 
 `ifdef RF_S
 // DIODES IV
-    I(di,bi)    <+  SIGN_M * IDBJ;
-    I(si,bi)    <+  SIGN_M * ISBJ;
+I(di,bi)    <+  SIGN_M * IDBJ;
+I(si,bi)    <+  SIGN_M * ISBJ;
 // DIODES CV
-    I(di,bi)    <+  SIGN_M * ddt(QDBJ);
-    I(si,bi)    <+  SIGN_M * ddt(QSBJ);
+I(di,bi)    <+  SIGN_M * ddt(QDBJ);
+I(si,bi)    <+  SIGN_M * ddt(QSBJ);
 `endif
 
 `ifdef RF
 // DIODES IV
-    I(di,bdi)   <+  SIGN_M * IDBJ;
-    I(si,bsi)   <+  SIGN_M * ISBJ;
+I(di,bdi)   <+  SIGN_M * IDBJ;
+I(si,bsi)   <+  SIGN_M * ISBJ;
 // DIODES CV
-    I(di,bdi)   <+  SIGN_M * ddt(QDBJ);
-    I(si,bsi)   <+  SIGN_M * ddt(QSBJ);
+I(di,bdi)   <+  SIGN_M * ddt(QDBJ);
+I(si,bsi)   <+  SIGN_M * ddt(QSBJ);
 `endif
 
 `ifdef NQS
 // DIODES IV
-    I(di,bdi)   <+  SIGN_M * IDBJ;
-    I(si,bsi)   <+  SIGN_M * ISBJ;
+I(di,bdi)   <+  SIGN_M * IDBJ;
+I(si,bsi)   <+  SIGN_M * ISBJ;
 // DIODES CV
-    I(di,bdi)   <+  SIGN_M * ddt(QDBJ);
-    I(si,bsi)   <+  SIGN_M * ddt(QSBJ);
+I(di,bdi)   <+  SIGN_M * ddt(QDBJ);
+I(si,bsi)   <+  SIGN_M * ddt(QSBJ);
 `endif

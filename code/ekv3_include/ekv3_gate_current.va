@@ -14,7 +14,7 @@ begin : GATE_CURRENT
         dpsi_dq     = 2.0;
     end
     psi_x       = abs(psi_ox) / xb;
-// CALCULATION OF PROBABILITY OF TUNNELING
+    // CALCULATION OF PROBABILITY OF TUNNELING
     if (psi_x < 1.0)
     begin
         tmp         = sqrt(1.0 - psi_x);
@@ -55,7 +55,7 @@ begin : GATE_CURRENT
         nigs        = 0.5 * nq * igo * (3.0 + a_gc) / (3.0 - b_gc);
         nigd        = nigc - nigs;
     end
-// CALCULATION OF DENORMALIZED GATE CURRENTS
+    // CALCULATION OF DENORMALIZED GATE CURRENTS
     if (vg > vfb) // NOTE: Depletion and inversion region. Gate current flows between the gate and the channel and is distributed to source and drain nodes.
     begin
         IGB         = 0.0;
@@ -71,59 +71,59 @@ begin : GATE_CURRENT
         IGD         = 0.0;
         IGS         = 0.0;
     end
-// CALCULATION OF OVERLAP GATE CURRENTS, BETWEEN GATE AND SOURCE, ON ONE SIDE, AND GATE AND DRAIN, ON THE OTHER
-// SOURCE SIDE CALCULATIONS
-if (LOVIG !=0 ) begin
-    if (vg - vs > vfb_ov)
-    begin
-        tmp         = sqrt( vg - vs - vfb_ov + gamma_g2  * 0.25) - gamma_g * 0.5;
-        psi_ox_sovgc    = vg - vs - tmp * tmp;
+    // CALCULATION OF OVERLAP GATE CURRENTS, BETWEEN GATE AND SOURCE, ON ONE SIDE, AND GATE AND DRAIN, ON THE OTHER
+    // SOURCE SIDE CALCULATIONS
+    if (LOVIG !=0 ) begin
+        if (vg - vs > vfb_ov)
+        begin
+            tmp         = sqrt( vg - vs - vfb_ov + gamma_g2  * 0.25) - gamma_g * 0.5;
+            psi_ox_sovgc    = vg - vs - tmp * tmp;
+        end
+        else
+        begin
+            tmp         = sqrt(-vg + vs + vfb_ov + gamma_ov2 * 0.25) - gamma_ov * 0.5;
+            psi_ox_sovgc    = vg - vs + tmp * tmp;
+        end
+        psi_x_sovgc         = abs(psi_ox_sovgc) / xb;
+        if (psi_x_sovgc < 1.0)
+        begin
+            tmp     = sqrt(1.0 - psi_x_sovgc);
+            p_tun_sovgc     = exp( - ub * (1.0 / (1.0 + tmp) + tmp));
+        end
+        else
+        begin
+            p_tun_sovgc     = exp( - ub / psi_x_sovgc);
+        end
+        // DRAIN SIDE CALCULATIONS
+        if (vg - vd > vfb_ov)
+        begin
+            tmp         = sqrt(vg - vd - vfb_ov + gamma_g2  * 0.25) - gamma_g * 0.5;
+            psi_ox_dovgc    = vg - vd - tmp * tmp;
+        end
+        else
+        begin
+            tmp         = sqrt(-vg + vd + vfb_ov + gamma_ov2 * 0.25) - gamma_ov * 0.5;
+            psi_ox_dovgc    = vg - vd + tmp * tmp;
+        end
+        psi_x_dovgc         = abs(psi_ox_dovgc) / xb;
+        if (psi_x_dovgc < 1.0)
+        begin
+            tmp         = sqrt(1.0 - psi_x_dovgc);
+            p_tun_dovgc     = exp( - ub * (1.0 / (1.0 + tmp) + tmp));
+        end
+        else
+        begin
+            p_tun_dovgc     = exp( - ub / psi_x_dovgc);
+        end
+        // CALCULATION OF DENORMALIZED OVERLAP GATE CURERNTS
+        tmp             = KG * WeffNF * LOVIG * UT2 / TOX2;
+        IGSOV           = tmp * psi_ox_sovgc * abs(psi_ox_sovgc) * p_tun_sovgc;
+        IGDOV           = tmp * psi_ox_dovgc * abs(psi_ox_dovgc) * p_tun_dovgc;
     end
-    else
-    begin
-        tmp         = sqrt(-vg + vs + vfb_ov + gamma_ov2 * 0.25) - gamma_ov * 0.5;
-        psi_ox_sovgc    = vg - vs + tmp * tmp;
+    else begin
+        IGSOV           = 0;
+        IGDOV           = 0;
     end
-    psi_x_sovgc         = abs(psi_ox_sovgc) / xb;
-    if (psi_x_sovgc < 1.0)
-    begin
-        tmp     = sqrt(1.0 - psi_x_sovgc);
-        p_tun_sovgc     = exp( - ub * (1.0 / (1.0 + tmp) + tmp));
-    end
-    else
-    begin
-        p_tun_sovgc     = exp( - ub / psi_x_sovgc);
-    end
-// DRAIN SIDE CALCULATIONS
-    if (vg - vd > vfb_ov)
-    begin
-        tmp         = sqrt(vg - vd - vfb_ov + gamma_g2  * 0.25) - gamma_g * 0.5;
-        psi_ox_dovgc    = vg - vd - tmp * tmp;
-    end
-    else
-    begin
-        tmp         = sqrt(-vg + vd + vfb_ov + gamma_ov2 * 0.25) - gamma_ov * 0.5;
-        psi_ox_dovgc    = vg - vd + tmp * tmp;
-    end
-    psi_x_dovgc         = abs(psi_ox_dovgc) / xb;
-    if (psi_x_dovgc < 1.0)
-    begin
-        tmp         = sqrt(1.0 - psi_x_dovgc);
-        p_tun_dovgc     = exp( - ub * (1.0 / (1.0 + tmp) + tmp));
-    end
-    else
-    begin
-        p_tun_dovgc     = exp( - ub / psi_x_dovgc);
-    end
-// CALCULATION OF DENORMALIZED OVERLAP GATE CURERNTS
-    tmp             = KG * WeffNF * LOVIG * UT2 / TOX2;
-    IGSOV           = tmp * psi_ox_sovgc * abs(psi_ox_sovgc) * p_tun_sovgc;
-    IGDOV           = tmp * psi_ox_dovgc * abs(psi_ox_dovgc) * p_tun_dovgc;
-end
-else begin
-    IGSOV           = 0;
-    IGDOV           = 0;
-end
 end
 // ASSIGNMENT OF GATE CURRENTS AND OVERLAP GATE CURRENTS.
 
@@ -132,43 +132,43 @@ end
     I(b ,g ) <+ -SIGN_M * IGB;
     I(s ,g ) <+ -SIGN_M * (d_gt_s * IGS + s_gt_d * IGD);
     I(d ,g ) <+ -SIGN_M * (d_gt_s * IGD + s_gt_d * IGS);
-// OVERLAP GATE CURRENTS
+    // OVERLAP GATE CURRENTS
     I(s ,g ) <+ -SIGN_M * (d_gt_s * IGSOV + s_gt_d * IGDOV);
     I(d ,g ) <+ -SIGN_M * (d_gt_s * IGDOV + s_gt_d * IGSOV);
 `endif
 `ifdef DC
-// GATE CURRENTS
+    // GATE CURRENTS
     I(b ,g ) <+ -SIGN_M * IGB;
     I(si,g ) <+ -SIGN_M * (d_gt_s * IGS + s_gt_d * IGD);
     I(di,g ) <+ -SIGN_M * (d_gt_s * IGD + s_gt_d * IGS);
-// OVERLAP GATE CURRENTS
+    // OVERLAP GATE CURRENTS
     I(si,g ) <+ -SIGN_M * (d_gt_s * IGSOV + s_gt_d * IGDOV);
     I(di,g ) <+ -SIGN_M * (d_gt_s * IGDOV + s_gt_d * IGSOV);
 `endif
 `ifdef RF_S
-// GATE CURRENTS
+    // GATE CURRENTS
     I(b ,gi) <+ -SIGN_M * IGB;
     I(si,gi) <+ -SIGN_M * (d_gt_s * IGS + s_gt_d * IGD);
     I(di,gi) <+ -SIGN_M * (d_gt_s * IGD + s_gt_d * IGS);
-// OVERLAP GATE CURRENTS
+    // OVERLAP GATE CURRENTS
     I(si,gi) <+ -SIGN_M * (d_gt_s * IGSOV + s_gt_d * IGDOV);
     I(di,gi) <+ -SIGN_M * (d_gt_s * IGDOV + s_gt_d * IGSOV);
 `endif
 `ifdef RF
-// GATE CURRENTS
+    // GATE CURRENTS
     I(b ,gi) <+ -SIGN_M * IGB;
     I(si,gi) <+ -SIGN_M * (d_gt_s * IGS + s_gt_d * IGD);
     I(di,gi) <+ -SIGN_M * (d_gt_s * IGD + s_gt_d * IGS);
-// OVERLAP GATE CURRENTS
+    // OVERLAP GATE CURRENTS
     I(si,gi) <+ -SIGN_M * (d_gt_s * IGSOV + s_gt_d * IGDOV);
     I(di,gi) <+ -SIGN_M * (d_gt_s * IGDOV + s_gt_d * IGSOV);
 `endif
 `ifdef NQS
-// GATE CURRENTS
+    // GATE CURRENTS
     I(b ,gi) <+ -SIGN_M * IGB;
     I(si,gi) <+ -SIGN_M * (d_gt_s * IGS + s_gt_d * IGD);
     I(di,gi) <+ -SIGN_M * (d_gt_s * IGD + s_gt_d * IGS);
-// OVERLAP GATE CURRENTS
+    // OVERLAP GATE CURRENTS
     I(si,gi) <+ -SIGN_M * (d_gt_s * IGSOV + s_gt_d * IGDOV);
     I(di,gi) <+ -SIGN_M * (d_gt_s * IGDOV + s_gt_d * IGSOV);
 `endif

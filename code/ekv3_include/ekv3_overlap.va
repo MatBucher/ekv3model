@@ -2,8 +2,8 @@
 // THE CHARGE CALCULATION IS BASED ON THE FORMULATION OF THE CHARGE CALCULATION OF THE INTRINSIC DEVICE, FOCUSSING ONLY ON TWO NODES (GATE AND BULK), WHERE BULK HERE IS SOURCE OR DRAIN AND WHERE THE DOPING IS OF THE DIFFERENT TYPE.
 
 begin : OVERLAP_CAPACITANCES_CHARGES
-// CALCULATION OF NORMALIZED BIAS-DEPENDENT OVERLAP CHARGES
-// SOURCE SIDE
+    // CALCULATION OF NORMALIZED BIAS-DEPENDENT OVERLAP CHARGES
+    // SOURCE SIDE
     if (TG < 0) // NOTE: Doping type of GATE opposite to the one of the bulk.
     begin
         vgsov_p         = vg - VOV * vs - vfb_ov; // NOTE: Default value of VOV is 1
@@ -70,7 +70,7 @@ begin : OVERLAP_CAPACITANCES_CHARGES
             dpsiox_sov      = - v2b_sov;
         end
     end
-// DRAIN SIDE
+    // DRAIN SIDE
     if (TG < 0)
     begin
         vgdov_p         = vg - VOV * vd - vfb_ov; // NOTE: Default value of VOV is 1
@@ -137,7 +137,7 @@ begin : OVERLAP_CAPACITANCES_CHARGES
             dpsiox_dov      = - v2b_dov;
         end
     end
-// DENORMALIZATION OF BIAS-DEPENDENT OVERLAP CHARGES
+    // DENORMALIZATION OF BIAS-DEPENDENT OVERLAP CHARGES
     QSOV        = - Q0OV * dpsiox_sov;
     QDOV        = - Q0OV * dpsiox_dov;
 end

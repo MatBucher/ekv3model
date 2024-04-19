@@ -3,7 +3,7 @@ begin : EXTRACTING_RESULTS
     begin
         if (INFO_LEVEL == 1.0)
         begin
-// INTRODUCTION
+            // INTRODUCTION
             $strobe("");
             $strobe("########################################");
             $strobe("#                                      #");
@@ -14,23 +14,23 @@ begin : EXTRACTING_RESULTS
             $strobe("#                                      #");
             $strobe("########################################");
             $strobe("");
-// GENERAL INFORMATION
+            // GENERAL INFORMATION
             $strobe("  On device: %m");
-        `ifdef DC_S
+            `ifdef DC_S
             $strobe("  Model mode: simple low frequency (DC_S: no intrinsic nodes) ");
-        `endif
-        `ifdef DC
+            `endif
+            `ifdef DC
             $strobe("  Model mode: low frequency (DC: two intrinsic nodes) ");
-        `endif
-        `ifdef RF_S
+            `endif
+            `ifdef RF_S
             $strobe("  Model mode: simple high frequency (RF_S: four intrinsic nodes) ");
-        `endif
-        `ifdef RF
+            `endif
+            `ifdef RF
             $strobe("  Model mode: high frequency (RF: six intrinsic nodes) ");
-        `endif
-        `ifdef NQS
+            `endif
+            `ifdef NQS
             $strobe("  Model mode: non-quasi-static high frequency (NQS: ten intrinsic nodes) ");
-        `endif
+            `endif
             $strobe("  Temperature: %g C \t UT = %g V \t TNOM = %g C", (T-273.15), UT, TNOM);
             $strobe("");
             $strobe("+ GENERAL CHARACTERISTICS ");
@@ -39,14 +39,14 @@ begin : EXTRACTING_RESULTS
             $strobe(">- COX = %g F*m^(-2)", COX);
             $strobe(">- VSB = %g V ",              V(s,b));
             $strobe("");
-// EXTERNAL BIAS
+            // EXTERNAL BIAS
             $strobe("+ EXTERNAL BIAS ");
             $strobe("|");
             $strobe(">- VGB = %g V \t VGS = %g V", V(g,b), (V(g,b)-V(s,b)));
             $strobe(">- VDB = %g V \t VDS = %g V", V(d,b), (V(d,b)-V(s,b)));
             $strobe(">- VSB = %g V ",              V(s,b));
             $strobe("");
-// DEVICE GEOMETRY
+            // DEVICE GEOMETRY
             $strobe("+ DEVICE GEOMETRY ");
             $strobe("|");
             $strobe(">- Leff = %g m \t Leffc = %g m ", Leff, Leffc);
@@ -59,7 +59,7 @@ begin : EXTRACTING_RESULTS
             $strobe(">");
             $strobe(">- W/L           = %g ", ((Weff-WEDGE)*NF/(Leff-deltal)));
             $strobe("");
-// THRESHOLD VOLTAGE
+            // THRESHOLD VOLTAGE
             $strobe("+ THRESHOLD VOLTAGE ");
             $strobe("|");
             $strobe(">- VTO(dev,T) = %g V \t VTO(dev,TNOM) = %g V", VTO_DEV_t, VTO_DEV);
@@ -75,7 +75,7 @@ begin : EXTRACTING_RESULTS
             $strobe(">");
             $strobe(">- VFB        = %g V ", (vfb*UT));
             $strobe("");
-// BODY EFFECT FACTOR
+            // BODY EFFECT FACTOR
             $strobe("+ BODY EFFECT FACTOR ");
             $strobe("|");
             $strobe(">- GAMMA(dev)  = %g V^(1/2)", GAMMA_DEV);
@@ -91,7 +91,7 @@ begin : EXTRACTING_RESULTS
             $strobe(">- GAMMAeff0(CHSH)= %g V^(1/2) \t\t (CHARGE SHARING, NO BIAS)", (gamma_b_chsh0*UT));
             $strobe(">- GAMMAeff       = %g V^(1/2) \t\t (ALL PHENOMENA, POLYSILICON DEPLETION)", (gamma_b_eff*UT));
             $strobe("");
-// FERMI POTENTIAL
+            // FERMI POTENTIAL
             $strobe("+ FERMI POTENTIAL ");
             $strobe("|");
             $strobe(">- PHIF(dev,T)  = %g V \t PHIF(dev,TNOM) = %g V", PHIF_DEV_t, PHIF_DEV);
@@ -105,7 +105,7 @@ begin : EXTRACTING_RESULTS
             $strobe(">- DPSI(QM)    = %g V \t\t (QUANTUM MECHANICAL EFFECTS)", DPSI0);
             $strobe(">- VBI(dev,T)  = %g V", (vbi*UT));
             $strobe("");
-// MOBILITY
+            // MOBILITY
             $strobe("+ MOBILITY RELATED EFFECTS ");
             $strobe("|");
             $strobe(">- MOB(dev,T)    = %g m^2/(V*s)", (beta/COX));
@@ -119,7 +119,7 @@ begin : EXTRACTING_RESULTS
             $strobe(">- AMOB(MRVF)    = %g \t\t (MOBILITY REDUCTION DUE TO VERTICAL FIELD)", (beta_nom/beta_denom));
             $strobe(">- AMOB(MRLF)    = %g \t\t (MOBILITY REDUCTION DUE TO LONGITUDINAL FIELD)", (1.0 / beta_clm_denom));
             $strobe("");
-// QUANTUM MECHANICAL
+            // QUANTUM MECHANICAL
             $strobe("+ QUANTUM MECHANICAL EFFECTS ");
             $strobe("|");
             $strobe(">- AQMA = %g \t AQMI = %g \t ETAQM = %g", AQMA, AQMI, ETAQM);
@@ -128,14 +128,14 @@ begin : EXTRACTING_RESULTS
             $strobe(">- DPSI            = %g V \t\t (FERMI POTENTIAL)", DPSI0);
             $strobe(">- DPSIV           = %g V \t\t (DVO ON CHARGE MODEL OF QB)", (dpsiv*UT));
             $strobe("");
-// SLOPE FACTOR
+            // SLOPE FACTOR
             $strobe("+ SLOPE FACTOR ");
             $strobe("|");
             $strobe(">- nv  = %g ", nv);
             $strobe(">- nq  = %g ", nq);
             $strobe(">- nq0 = %g ", nq0);
             $strobe("");
-// PINCH-OFF
+            // PINCH-OFF
             $strobe("+ PINCH-OFF SURFACE POTENTIAL AND VOLTAGE ");
             $strobe("|");
             $strobe(">- PSI_P   = %g V ", (psi_p*UT));
@@ -148,7 +148,7 @@ begin : EXTRACTING_RESULTS
             $strobe(">- DPSI_S(DIBL)= %g V \t\t (DRAIN INDUCED BARRIER LOWERING)", (deltapsis*UT));
             $strobe(">- V_P(DIBL)   = %g V ", ((vp+deltapsis)*UT));
             $strobe("");
-// VELOCITY SATURATION
+            // VELOCITY SATURATION
             $strobe("+ VELOCITY SATURATION ");
             $strobe("|");
             $strobe(">- UCRIT  = %g V/m \t\t LAMBDA = %g   \t\t DELTA  = %g \t\t ACLM = %g ", UCRIT, LAMBDA, DELTA, ACLM);
@@ -184,10 +184,10 @@ begin : EXTRACTING_RESULTS
             $strobe(">- DITS            = %g ", dits_factor);
             $strobe(">");
             $strobe(">- #### IDS ####   = %g A", IDS);
-        `ifdef DC_S
+            `ifdef DC_S
             $strobe(">");
             $strobe(">- SERIES RESISTANCE = %g ", (1.0/(1.0+(rs_wt*Ispec/UT)*qs+(rd_wt*Ispec/UT)*qdp)));
-        `endif
+            `endif
             $strobe("");
             $strobe("+ CHARGES ");
             $strobe("|");
@@ -320,31 +320,21 @@ begin : EXTRACTING_RESULTS
             $strobe("");
             $strobe("+ EXTRINSIC RESISTORS ");
             $strobe("|");
-        `ifdef DC_S
+            `ifdef DC_S
             $strobe(">- RS     = %g Ohm \t\t NOISE = %g (PSD)", rs_wt, (KT4/rs_wt));
             $strobe(">- RD     = %g Ohm \t\t NOISE = %g (PSD)", rd_wt, (KT4/rd_wt));
-        `endif
-        `ifdef DC
+            `endif
+            `ifdef DC
             $strobe(">- RS     = %g Ohm \t\t NOISE = %g (PSD)", rs_wt, (KT4/rs_wt));
             $strobe(">- RD     = %g Ohm \t\t NOISE = %g (PSD)", rd_wt, (KT4/rd_wt));
-        `endif
-        `ifdef RF_S
-            $strobe(">- RS     = %g Ohm \t\t NOISE = %g (PSD)", rs_wt, (KT4/rs_wt));
-            $strobe(">- RD     = %g Ohm \t\t NOISE = %g (PSD)", rd_wt, (KT4/rd_wt));
-            $strobe(">- RG     = %g Ohm \t\t NOISE = %g (PSD)", rg_t, (KT4/rg_t));
-            $strobe(">- RB     = %g Ohm \t\t NOISE = %g (PSD)", rb_t, (KT4/rb_t));
-        `endif
-        `ifdef RF
+            `endif
+            `ifdef RF_S
             $strobe(">- RS     = %g Ohm \t\t NOISE = %g (PSD)", rs_wt, (KT4/rs_wt));
             $strobe(">- RD     = %g Ohm \t\t NOISE = %g (PSD)", rd_wt, (KT4/rd_wt));
             $strobe(">- RG     = %g Ohm \t\t NOISE = %g (PSD)", rg_t, (KT4/rg_t));
             $strobe(">- RB     = %g Ohm \t\t NOISE = %g (PSD)", rb_t, (KT4/rb_t));
-            $strobe(">- RSB    = %g Ohm \t\t NOISE = %g (PSD)", rsb_t, (KT4/rsb_t));
-            $strobe(">- RDB    = %g Ohm \t\t NOISE = %g (PSD)", rdb_t, (KT4/rdb_t));
-            $strobe(">- RDSB   = %g Ohm \t\t NOISE = %g (PSD)", rdsb_t, (KT4/rdsb_t));
-            $strobe(">- RDSB/2 = %g Ohm \t\t NOISE = %g (PSD)", rdsb_t*0.5, (0.5*KT4/rdsb_t));
-        `endif
-        `ifdef NQS
+            `endif
+            `ifdef RF
             $strobe(">- RS     = %g Ohm \t\t NOISE = %g (PSD)", rs_wt, (KT4/rs_wt));
             $strobe(">- RD     = %g Ohm \t\t NOISE = %g (PSD)", rd_wt, (KT4/rd_wt));
             $strobe(">- RG     = %g Ohm \t\t NOISE = %g (PSD)", rg_t, (KT4/rg_t));
@@ -353,10 +343,20 @@ begin : EXTRACTING_RESULTS
             $strobe(">- RDB    = %g Ohm \t\t NOISE = %g (PSD)", rdb_t, (KT4/rdb_t));
             $strobe(">- RDSB   = %g Ohm \t\t NOISE = %g (PSD)", rdsb_t, (KT4/rdsb_t));
             $strobe(">- RDSB/2 = %g Ohm \t\t NOISE = %g (PSD)", rdsb_t*0.5, (0.5*KT4/rdsb_t));
-        `endif
+            `endif
+            `ifdef NQS
+            $strobe(">- RS     = %g Ohm \t\t NOISE = %g (PSD)", rs_wt, (KT4/rs_wt));
+            $strobe(">- RD     = %g Ohm \t\t NOISE = %g (PSD)", rd_wt, (KT4/rd_wt));
+            $strobe(">- RG     = %g Ohm \t\t NOISE = %g (PSD)", rg_t, (KT4/rg_t));
+            $strobe(">- RB     = %g Ohm \t\t NOISE = %g (PSD)", rb_t, (KT4/rb_t));
+            $strobe(">- RSB    = %g Ohm \t\t NOISE = %g (PSD)", rsb_t, (KT4/rsb_t));
+            $strobe(">- RDB    = %g Ohm \t\t NOISE = %g (PSD)", rdb_t, (KT4/rdb_t));
+            $strobe(">- RDSB   = %g Ohm \t\t NOISE = %g (PSD)", rdsb_t, (KT4/rdsb_t));
+            $strobe(">- RDSB/2 = %g Ohm \t\t NOISE = %g (PSD)", rdsb_t*0.5, (0.5*KT4/rdsb_t));
+            `endif
             $strobe("");
             $strobe("");
-        `ifdef DC_S
+            `ifdef DC_S
             $strobe("#######################################################");
             $strobe("                                                       ");
             $strobe("   MACROMODEL:                                         ");
@@ -389,8 +389,8 @@ begin : EXTRACTING_RESULTS
             $strobe(" V_B = %g V                                                          ", V(b  ));
             $strobe("                                                       ");
             $strobe("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        `endif
-        `ifdef DC
+            `endif
+            `ifdef DC
             $strobe("#######################################################");
             $strobe("                                                       ");
             $strobe("   MACROMODEL:                                         ");
@@ -426,8 +426,8 @@ begin : EXTRACTING_RESULTS
             $strobe(" V_SSi = %g V                                                        ", (V(s  )-V(si )));
             $strobe("                                                       ");
             $strobe("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        `endif
-        `ifdef RF_S
+            `endif
+            `ifdef RF_S
             $strobe("#######################################################");
             $strobe("                                                       ");
             $strobe("   MACROMODEL:                                         ");
@@ -480,8 +480,8 @@ begin : EXTRACTING_RESULTS
             $strobe(" V_BBi = %g V                                                        ", (V(b  )-V(bi )));
             $strobe("                                                       ");
             $strobe("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        `endif
-        `ifdef RF
+            `endif
+            `ifdef RF
             $strobe("#######################################################");
             $strobe("                                                       ");
             $strobe("   MACROMODEL:                                         ");
@@ -538,8 +538,8 @@ begin : EXTRACTING_RESULTS
             $strobe(" V_BBDi  = %g V                                                      ", (V(b  )-V(bdi)));
             $strobe("                                                       ");
             $strobe("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        `endif
-        `ifdef NQS
+            `endif
+            `ifdef NQS
             $strobe("#######################################################");
             $strobe("                                                       ");
             $strobe("   MACROMODEL:                                         ");
@@ -604,7 +604,7 @@ begin : EXTRACTING_RESULTS
             $strobe(" V_DiBi  = %g V \t V_DiM4 = %g V                                     ", (V(di )-V(bi )), (V(di )-V(m4 )));
             $strobe("                                                       ");
             $strobe("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        `endif
+            `endif
             $strobe("                                                       ");
             $strobe("   CGSex = CGS_OV + CGS_FR_I + CGS_FR_O                ");
             $strobe("   CGDex = CGD_OV + CGD_FR_I + CGD_FR_O                ");
@@ -642,33 +642,33 @@ begin : EXTRACTING_RESULTS
     begin // NO INFO REQUESTED
 
     end
-//  file = 0;
-//  file_info = 0;
-//
-//  $strobe("START_DEBUG_1 %m");
-//
-//  @(initial_step)     $strobe("START_DEBUG %m");
-//  @(final_step)       $strobe("VGB:%g \t VSB:%g \t VDB:%g",V(g)-V(b),V(s)-V(b),V(d)-V(b));
-//  @(final_step)       $strobe("qs:%g  \t qdp:%g",qs,qdp);
-//  @(final_step)       $strobe("END_DEBUG %m");
-//
-//  extract info to file (ekv3_debug.txt)
-//      uncomment the "integer file" command at the ekv3_variables.va file
-//
-//  @(initial_step)     file = $fopen("ekv3_debug.txt");
-//  @(final_step)       $fstrobe(file,"VGB:%g \t VSB:%g \t VDB:%g",V(g)-V(b),V(s)-V(b),V(d)-V(b));
-//  @(final_step)       $fstrobe(file,"qs:%g \t qdp:%g",qs,qdp);
-//  @(final_step)       $fclose(file);
-//
-//  extract info to file (ekv3_info.txt)
-//  uncomment the "integer file_info" command at the ekv3_variables.va file
-//
-//  @(initial_step)     file_info = $fopen("ekv3_info.txt");
-//
-//  @(final_step)       $fstrobe(file_info,"VGB:%g \t VSB:%g \t VDB:%g",V(g)-V(b),V(s)-V(b),V(d)-V(b));
-//  @(final_step)       $fstrobe(file_info,"qs:%g \t qdp:%g",qs,qdp);
-//
-//  @(final_step)       $fclose(file_info);
+    //  file = 0;
+    //  file_info = 0;
+    //
+    //  $strobe("START_DEBUG_1 %m");
+    //
+    //  @(initial_step)     $strobe("START_DEBUG %m");
+    //  @(final_step)       $strobe("VGB:%g \t VSB:%g \t VDB:%g",V(g)-V(b),V(s)-V(b),V(d)-V(b));
+    //  @(final_step)       $strobe("qs:%g  \t qdp:%g",qs,qdp);
+    //  @(final_step)       $strobe("END_DEBUG %m");
+    //
+    //  extract info to file (ekv3_debug.txt)
+    //      uncomment the "integer file" command at the ekv3_variables.va file
+    //
+    //  @(initial_step)     file = $fopen("ekv3_debug.txt");
+    //  @(final_step)       $fstrobe(file,"VGB:%g \t VSB:%g \t VDB:%g",V(g)-V(b),V(s)-V(b),V(d)-V(b));
+    //  @(final_step)       $fstrobe(file,"qs:%g \t qdp:%g",qs,qdp);
+    //  @(final_step)       $fclose(file);
+    //
+    //  extract info to file (ekv3_info.txt)
+    //  uncomment the "integer file_info" command at the ekv3_variables.va file
+    //
+    //  @(initial_step)     file_info = $fopen("ekv3_info.txt");
+    //
+    //  @(final_step)       $fstrobe(file_info,"VGB:%g \t VSB:%g \t VDB:%g",V(g)-V(b),V(s)-V(b),V(d)-V(b));
+    //  @(final_step)       $fstrobe(file_info,"qs:%g \t qdp:%g",qs,qdp);
+    //
+    //  @(final_step)       $fclose(file_info);
 end
 
 

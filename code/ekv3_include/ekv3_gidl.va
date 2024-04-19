@@ -4,13 +4,13 @@
 begin : GIDL
     vgse    = vfb + psi_p - 2.0 * qs;
     tmp1    = (vdp - vs - vgse)  * UT - EGIDL;
-//  PATCH FOR
-        if (AGIDL==0 || tmp1 <=0 ) begin
+    //  PATCH FOR
+    if (AGIDL==0 || tmp1 <=0 ) begin
         IGIDL = 0;
-        end
-        else begin
-    tmp2    = vdp * vdp  * vdp * UT3;
-    IGIDL   = AGIDL * WeffNF * (tmp1 / (3.0 * TOX)) * exp(-(3.0 * TOX * BGIDL) / tmp1) * tmp2 / (CGIDL + tmp2);
+    end
+    else begin
+        tmp2    = vdp * vdp  * vdp * UT3;
+        IGIDL   = AGIDL * WeffNF * (tmp1 / (3.0 * TOX)) * exp(-(3.0 * TOX * BGIDL) / tmp1) * tmp2 / (CGIDL + tmp2);
     end
 end //  GIDL
 
@@ -18,12 +18,12 @@ end //  GIDL
 begin : GISL
     vgde    = vfb + psi_p - 2.0 * qdp;
     tmp1    = (vs - vdp - vgde)  * UT - EGIDL;
-        if (AGIDL==0 || tmp1 <=0 ) begin
+    if (AGIDL==0 || tmp1 <=0 ) begin
         IGISL = 0;
-        end
-        else begin
-    tmp2    = vs * vs  * vs * UT3;
-    IGISL   = AGIDL * WeffNF * (tmp1 / (3.0 * TOX)) * exp(-(3.0 * TOX * BGIDL) / tmp1) * tmp2 / (CGIDL + tmp2);
+    end
+    else begin
+        tmp2    = vs * vs  * vs * UT3;
+        IGISL   = AGIDL * WeffNF * (tmp1 / (3.0 * TOX)) * exp(-(3.0 * TOX * BGIDL) / tmp1) * tmp2 / (CGIDL + tmp2);
     end
 end //  GISL
 

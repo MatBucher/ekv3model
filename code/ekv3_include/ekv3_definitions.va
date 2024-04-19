@@ -58,19 +58,19 @@
 
 // Definition used in ADMS
 `ifdef insideADMS
-    `define MODEL @(initial_model)
-    `define INSTANCE @(initial_instance)
-    `define ATTR(txt) (*txt*)
+`define MODEL @(initial_model)
+`define INSTANCE @(initial_instance)
+`define ATTR(txt) (*txt*)
 `else
-    `define MODEL
-    `define INSTANCE
-    `define ATTR(txt)
+`define MODEL
+`define INSTANCE
+`define ATTR(txt)
 `endif
 
 `ifdef insideADMS
-    `define OPPATTR(n,d,u)  (* spice:name=n, info=d , unit=u , ask="yes" *)
+`define OPPATTR(n,d,u)  (* spice:name=n, info=d , unit=u , ask="yes" *)
 `else
-    `define OPPATTR(n,d,u)  (* desc=d , units=u  *)
+`define OPPATTR(n,d,u)  (* desc=d , units=u  *)
 `endif
 `define abs_ddx(a,b)  abs(ddx(a,b))
 
