@@ -506,7 +506,7 @@ real     dq_dksi;
 real     a_gc;
 real     b_gc;
 real     IGB;
-real     IG;
+`OPPATTR("IGex","Extrinsic Current Gate Side","A") real IG;
 real     IGD;
 real     IGS;
 real     psi_ox_sovgc;
