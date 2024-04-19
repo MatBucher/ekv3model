@@ -4,16 +4,12 @@
 /////////////////////////////////////////////////////////////////////////////
 // OPPATTR function used for printing Opeating Points
 // insideADMS OPPATTR (*spice:name=1 , info=2 , unit=3 , ask="yes" *)
-// else   	OPPATTR (* desc=2 , units=3 *)
+// else     OPPATTR (* desc=2 , units=3 *)
 /////////////////////////////////////////////////////////////////////////////
 
 ///// POTENTIAL INFO ///////////////////////
 
-`OPPATTR("VS","VS","V") real 	 VS;
-`OPPATTR("VD","VD","V") real 	 VD;
-`OPPATTR("VG","VG","V") real 	 VG;
-`OPPATTR("VB","VB","V") real	 VB;
-`OPPATTR("VDS","VDS","V") real	VDS;
+`OPPATTR("VDS","VDS","V") real  VDS;
 `OPPATTR("VGS","VGS","V") real  VGS;
 `OPPATTR("VBS","VBS","V") real  VBS;
 `OPPATTR("VDB","VDB","V") real  VDB;
@@ -24,28 +20,24 @@
 `OPPATTR("IDSedge","Edge Effect Current","A") real ids_edge_effect;
 `OPPATTR("IDex","Extrinsic Current Drain Side","A") real ID;
 `OPPATTR("ISex","Extrinsic Current Source Side","A") real IS;
-`OPPATTR("IGex","Extrinsic Current Gate Side","A") real IG;
 `OPPATTR("IBex","Extrinsic Current Bulk Side","A") real IB;
 ///////////////////////////////////////////////
 `OPPATTR("n","Slope Factor n","") real slopefactor;
-//`OPPATTR("nq","Inversion Charge Linearization Factor","") real 	 nq;
-`OPPATTR("Vp","Pinch-Off Voltage","") real 	 Vp;
+//`OPPATTR("nq","Inversion Charge Linearization Factor","") real     nq;
+`OPPATTR("Vp","Pinch-Off Voltage","") real   Vp;
 `OPPATTR("VOD","Overdrive Voltage n*(Vp-Vs)","V") real VOD;
 `OPPATTR("VDSAT","Saturation Voltage","V") real VDSAT;
-`OPPATTR("sat","Saturation Flag","s") real sat;
+//`OPPATTR("sat","Saturation Flag","s") real sat;
 `OPPATTR("VTH","Effective Threshold Voltage VTH","V") real VTH;
 `OPPATTR("VTB","Effective Threshold Voltage VTB","V") real Vtb;
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
-`OPPATTR("WeffNF","Effective Total Width","m") real WeffNF;
-`OPPATTR("Weff","Effective finger Width","m") real Weff;
-`OPPATTR("Leff","Effective Length","m") real Leff;
 `OPPATTR("Nf","Number of fingers","") real Nf;
 //////CURRENT - CHARGE  INFO ////////////////////
 //`OPPATTR("if","Forward Normalized Current","") real      if_;
-//`OPPATTR("irp","Reverse Normalized Current","") real 	 irp;
+//`OPPATTR("irp","Reverse Normalized Current","") real   irp;
 //`OPPATTR("qs","Normalized Source Inversion Charge","") real      qs;
-//`OPPATTR("qdp","Normalized Drain Inversion Charge","") real 	 qdp;
+//`OPPATTR("qdp","Normalized Drain Inversion Charge","") real    qdp;
 `OPPATTR("IC","Inversion Coefficient","")real ic ;
 `OPPATTR("ISPEC","Specific Current","A") real ISPEC;
 //////TRANCONDUCTANCE INFO //////////////////
@@ -99,8 +91,8 @@
 `OPPATTR("SVG_flicker","Flicker Noise PSD SdVG @ 1Hz","V^2/Hz") real SVG_flicker;
 `OPPATTR("SVG_thermal","Thermal Noise PSD SdVG","V^2/Hz") real SVG_thermal;
 
-`OPPATTR("sigmaDIdoId","Relative Current Mismatch","") real siId;
-`OPPATTR("sigmaVg","Gate Voltage Offset","V") real siVg;
+//`OPPATTR("sigmaDIdoId","Relative Current Mismatch","") real siId;
+//`OPPATTR("sigmaVg","Gate Voltage Offset","V") real siVg;
 
 `OPPATTR("I0","Technology Current","V") real i0;
 //`OPPATTR("M_","M_"," ") real mtmp;
