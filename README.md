@@ -14,3 +14,4 @@ mbucher@tuc.gr
 Current contributors: Matthias Bucher, Nikolaos Makris \
 Past contributors: Antonios Bazigos, Marianna Chalkiadaki, Nikolaos Mavredakis, Francois Krummenacher, Jean-Michel Sallese, Christian Enz, Ananda Roy
 
+This fork has modifications to improve compatibility to Verilog-A standard and simulators ngspice and Xyce. [Changelog](code/Changelog.md)
